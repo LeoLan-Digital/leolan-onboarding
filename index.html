@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>LeoLan Digital – KI Onboarding</title>
+  <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/LeoLan-Digital/leolan-ki/main/logo_extract2/leolan%20logo-01.png" />
   <style>
     :root {
       --navy: #1a2744;
@@ -801,9 +802,21 @@
             </div>
 
             <div class="field" data-field="address">
-              <label for="address">Adresse <span class="req">*</span></label>
-              <input type="text" id="address" name="address" placeholder="Straße, Hausnummer, PLZ, Ort" required />
-              <div class="error">Bitte Adresse eingeben.</div>
+              <label for="address">Straße & Hausnummer <span class="req">*</span></label>
+              <input type="text" id="address" name="address" placeholder="z. B. Hauptstraße 12" required />
+              <div class="error">Bitte Straße und Hausnummer eingeben.</div>
+            </div>
+
+            <div class="field" data-field="postalCode">
+              <label for="postalCode">PLZ <span class="req">*</span></label>
+              <input type="text" id="postalCode" name="postalCode" inputmode="numeric" maxlength="5" placeholder="z. B. 01237" required />
+              <div class="error">Bitte eine gültige deutsche PLZ mit 5 Ziffern eingeben.</div>
+            </div>
+
+            <div class="field" data-field="city">
+              <label for="city">Stadt <span class="req">*</span></label>
+              <input type="text" id="city" name="city" placeholder="Wird automatisch befüllt" required />
+              <div class="error">Bitte Stadt eingeben.</div>
             </div>
 
             <div class="field" data-field="phone">
@@ -815,6 +828,14 @@
               <label for="website">Website</label>
               <input type="url" id="website" name="website" placeholder="https://..." />
               <div class="error">Bitte eine gültige URL eingeben.</div>
+            </div>
+
+            <div class="field" data-field="logoUpload">
+              <label for="logoUpload">Logo-Upload</label>
+              <input type="file" id="logoUpload" name="logoUpload" accept="image/png,image/jpeg,image/jpg,image/webp,image/svg+xml" />
+              <input type="hidden" id="logoUploadName" name="logoUploadName" />
+              <input type="hidden" id="logoUploadData" name="logoUploadData" />
+              <div class="hint">Optional: Logo für Branding und Systemeinrichtung hochladen.</div>
             </div>
           </div>
 
@@ -853,13 +874,13 @@
             <div class="field" data-field="whatsappAccessToken">
               <label for="whatsappAccessToken">WhatsApp Access Token <span class="req">*</span></label>
               <input type="text" id="whatsappAccessToken" name="whatsappAccessToken" placeholder="Meta Access Token" required />
-              <div class="error">Bitte den WhatsApp Access Token eingeben.</div>
+              <div class="error">Token muss mit „EAA“ starten und mindestens 100 Zeichen lang sein.</div>
             </div>
 
             <div class="field" data-field="phoneNumberId">
               <label for="phoneNumberId">Phone Number ID <span class="req">*</span></label>
               <input type="text" id="phoneNumberId" name="phoneNumberId" placeholder="z. B. 123456789012345" required />
-              <div class="error">Bitte die Phone Number ID eingeben.</div>
+              <div class="error">Phone Number ID darf nur aus Zahlen bestehen und muss 15–16 Stellen haben.</div>
             </div>
           </div>
 
@@ -995,7 +1016,7 @@
 
   <script>
     const STORAGE_KEY = 'leolan-onboarding-data-v2';
-    const CHECKOUT_WEBHOOK_URL = 'https://n8n.leolan.net/webhook/stripe-checkout';
+    const CHECKOUT_WEBHOOK_URL = 'http://94.130.109.39:5678/webhook/stripe-checkout';
     const STRIPE_PUBLISHABLE_KEY = 'pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX';
     const DISPLAY_STEPS = [0, 1, 2, 3, 4, 5];
     const DISPLAY_LAST_STEP = 5;
@@ -1139,8 +1160,12 @@
         customerEmail: document.getElementById('customerEmail').value.trim(),
         restaurantName: document.getElementById('restaurantName').value.trim(),
         address: document.getElementById('address').value.trim(),
+        postalCode: document.getElementById('postalCode').value.trim(),
+        city: document.getElementById('city').value.trim(),
         phone: document.getElementById('phone').value.trim(),
         website: document.getElementById('website').value.trim(),
+        logoUploadName: document.getElementById('logoUploadName').value.trim(),
+        logoUploadData: document.getElementById('logoUploadData').value.trim(),
         description: document.getElementById('description').value.trim(),
         menuText: document.getElementById('menuText').value.trim(),
         whatsappAccessToken: document.getElementById('whatsappAccessToken').value.trim(),
@@ -1261,6 +1286,60 @@
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
     }
 
+
+    async function autofillCityFromPostalCode() {
+      const postalInput = document.getElementById('postalCode');
+      const cityInput = document.getElementById('city');
+      const postalCode = postalInput.value.trim();
+      if (!/^\d{5}$/.test(postalCode)) return;
+
+      try {
+        const response = await fetch(`https://api.zippopotam.us/de/${postalCode}`);
+        if (!response.ok) return;
+        const payload = await response.json();
+        const city = payload?.places?.[0]?.['place name'];
+        if (city && !cityInput.value.trim()) {
+          cityInput.value = city;
+          markInvalid('city', false);
+          persistForm();
+        }
+      } catch (error) {
+        console.warn('PLZ lookup failed', error);
+      }
+    }
+
+    function wirePostalCodeLookup() {
+      const postalInput = document.getElementById('postalCode');
+      if (!postalInput) return;
+      postalInput.addEventListener('blur', autofillCityFromPostalCode);
+      postalInput.addEventListener('change', autofillCityFromPostalCode);
+    }
+
+    function wireLogoUpload() {
+      const input = document.getElementById('logoUpload');
+      const nameField = document.getElementById('logoUploadName');
+      const dataField = document.getElementById('logoUploadData');
+      if (!input) return;
+
+      input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (!file) {
+          nameField.value = '';
+          dataField.value = '';
+          persistForm();
+          return;
+        }
+
+        nameField.value = file.name;
+        const reader = new FileReader();
+        reader.onload = () => {
+          dataField.value = typeof reader.result === 'string' ? reader.result : '';
+          persistForm();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
     function validateHours() {
       let valid = true;
       days.forEach(day => {
@@ -1294,7 +1373,9 @@
       if (step === 1) {
         const required = [
           ['restaurantName', data.restaurantName],
-          ['address', data.address]
+          ['address', data.address],
+          ['postalCode', data.postalCode],
+          ['city', data.city]
         ];
 
         required.forEach(([name, value]) => {
@@ -1307,6 +1388,14 @@
         markInvalid('customerEmail', !emailValid);
         if (!emailValid) valid = false;
 
+        const postalValid = /^\d{5}$/.test(data.postalCode);
+        markInvalid('postalCode', !postalValid);
+        if (!postalValid) valid = false;
+
+        const cityValid = Boolean(data.city);
+        markInvalid('city', !cityValid);
+        if (!cityValid) valid = false;
+
         const websiteValid = validateUrlMaybe(data.website);
         markInvalid('website', !websiteValid);
         if (!websiteValid) valid = false;
@@ -1315,11 +1404,13 @@
       }
 
       if (step === 2) {
-        [['whatsappAccessToken', data.whatsappAccessToken], ['phoneNumberId', data.phoneNumberId]].forEach(([name, value]) => {
-          const fieldValid = Boolean(value);
-          markInvalid(name, !fieldValid);
-          if (!fieldValid) valid = false;
-        });
+        const tokenValid = /^EAA.{97,}$/.test(data.whatsappAccessToken);
+        markInvalid('whatsappAccessToken', !tokenValid);
+        if (!tokenValid) valid = false;
+
+        const phoneIdValid = /^\d{15,16}$/.test(data.phoneNumberId);
+        markInvalid('phoneNumberId', !phoneIdValid);
+        if (!phoneIdValid) valid = false;
       }
 
       if (step === 4) {
@@ -1355,9 +1446,10 @@
       const restaurantItems = [
         ['Restaurant', data.restaurantName || '—'],
         ['E-Mail', data.customerEmail || '—'],
-        ['Adresse', data.address || '—'],
+        ['Adresse', [data.address, data.postalCode, data.city].filter(Boolean).join(', ') || '—'],
         ['Telefon', data.phone || '—'],
         ['Website', data.website || '—'],
+        ['Logo', data.logoUploadName || '—'],
         ['Beschreibung', data.description || '—'],
         ['Speisekarte', data.menuText ? truncate(data.menuText, 140) : '—']
       ];
@@ -1490,6 +1582,9 @@
         submittedAt: new Date().toISOString(),
         source: 'LeoLan Digital Onboarding SPA',
         stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
+        checkoutMode: 'subscription',
+        checkoutStrategy: 'single-recurring-plan-with-addon-services',
+        lineItems: selectedPlan ? [{ priceId: selectedPlan.priceId, quantity: 1, type: 'recurring' }] : [],
         priceId: selectedPlan?.priceId || '',
         customerEmail: data.customerEmail,
         restaurantName: data.restaurantName,
@@ -1502,6 +1597,7 @@
           priceId: selectedPlan.priceId
         } : null,
         selectedServices: chargedServices,
+        addonServices: chargedServices.map(service => ({ ...service, billingType: 'one_time_setup' })),
         includedServices: Object.entries(SERVICES)
           .filter(([key]) => serviceIncludedInPlan(key, data.selectedPlan))
           .map(([key, service]) => ({ key, ...service })),
@@ -1591,6 +1687,8 @@
     buildHoursInputs();
     restoreForm();
     clearValidationOnInput();
+    wirePostalCodeLookup();
+    wireLogoUpload();
     highlightSelectedPlan();
     syncPlanDependentUI();
     initSuccessStateIfNeeded();
