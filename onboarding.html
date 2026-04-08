@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LeoLan Digital – KI Onboarding</title>
+  <style>
+    :root {
+      --navy: #1a2744;
+      --navy-2: #24365d;
+      --orange: #f5a623;
+      --orange-dark: #e79512;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --text: #182235;
+      --muted: #68748a;
+      --border: #dfe5ef;
+      --success: #22a06b;
+      --danger: #d64545;
+      --shadow: 0 18px 48px rgba(26, 39, 68, 0.12);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(245, 166, 35, 0.16), transparent 28%),
+        linear-gradient(180deg, #eef2f9 0%, #f8faff 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    a { color: var(--orange); }
+
+    .shell {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #22345c 100%);
+      color: #fff;
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, rgba(245,166,35,0.28), rgba(245,166,35,0));
+      border-radius: 50%;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--orange);
+      border-radius: 50%;
+      box-shadow: 0 0 0 6px rgba(245,166,35,0.12);
+    }
+
+    .hero h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(2rem, 6vw, 3.4rem);
+      line-height: 1.02;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 780px;
+      color: rgba(255,255,255,0.82);
+      font-size: 1rem;
+      line-height: 1.65;
+    }
+
+    .card {
+      margin-top: 18px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255,255,255,0.24);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+
+    .progress-wrap {
+      padding: 20px 20px 10px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(247,249,253,0.95));
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .progress-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .progress-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .progress-meta {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: #e8edf6;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 16.666%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--orange), #ffbd52);
+      transition: width 320ms ease;
+    }
+
+    form { padding: 20px; }
+
+    .step {
+      display: none;
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 280ms ease, transform 280ms ease;
+    }
+
+    .step.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+      animation: fadeSlide 0.32s ease;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-tag {
+      display: inline-block;
+      margin-bottom: 8px;
+      color: var(--orange);
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: clamp(1.5rem, 4vw, 2rem);
+    }
+
+    .intro {
+      margin: 0 0 24px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid.two { grid-template-columns: 1fr; }
+    .grid.three { grid-template-columns: 1fr; }
+
+    .field, .service-card, .summary-block, .plan-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .field label, .hours-row label {
+      display: block;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .hint {
+      margin-top: 6px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .req { color: var(--orange-dark); }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid #ccd5e3;
+      border-radius: 14px;
+      padding: 13px 14px;
+      font: inherit;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--orange);
+      box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.15);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .field.invalid input,
+    .field.invalid textarea,
+    .field.invalid select,
+    .hours-row.invalid input,
+    .plan-error.show {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 4px rgba(214, 69, 69, 0.08);
+    }
+
+    .error, .plan-error {
+      display: none;
+      margin-top: 8px;
+      color: var(--danger);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .field.invalid .error,
+    .hours-row.invalid + .error,
+    .error.show,
+    .plan-error.show {
+      display: block;
+    }
+
+    .hours-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hours-row {
+      display: grid;
+      grid-template-columns: 84px 1fr;
+      gap: 12px;
+      align-items: center;
+      background: #fbfcfe;
+      border: 1px solid var(--border);
+      padding: 14px;
+      border-radius: 16px;
+    }
+
+    .hours-row .inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .closed-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .closed-wrap input {
+      width: auto;
+      margin: 0;
+    }
+
+    .service-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .service-card:hover,
+    .plan-card:hover {
+      transform: translateY(-1px);
+      border-color: #cfd8e7;
+      box-shadow: 0 12px 28px rgba(26,39,68,0.06);
+    }
+
+    .service-card input,
+    .plan-selector {
+      width: 20px;
+      height: 20px;
+      margin-top: 3px;
+      accent-color: var(--orange);
+    }
+
+    .service-card strong,
+    .plan-header strong {
+      display: block;
+      color: var(--navy);
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .service-card span {
+      display: block;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.92rem;
+    }
+
+    .price, .plan-price {
+      margin-left: auto;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(245,166,35,0.12);
+      color: #9c5f00;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .callout {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(245,166,35,0.25);
+      background: linear-gradient(135deg, rgba(245,166,35,0.08), rgba(245,166,35,0.03));
+      color: var(--navy);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    .callout strong { display: block; margin-bottom: 6px; }
+
+    .plan-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .plan-card {
+      position: relative;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .plan-card.selected {
+      border-color: var(--orange);
+      box-shadow: 0 18px 36px rgba(245, 166, 35, 0.18);
+      background: linear-gradient(180deg, #fffdfa 0%, #ffffff 100%);
+    }
+
+    .plan-card.recommended {
+      border-color: rgba(245,166,35,0.5);
+      background: linear-gradient(180deg, rgba(245,166,35,0.07), rgba(255,255,255,1));
+    }
+
+    .plan-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(36, 54, 93, 0.08);
+      color: var(--navy);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .plan-card.recommended .plan-badge {
+      background: rgba(245,166,35,0.16);
+      color: #9c5f00;
+    }
+
+    .plan-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .plan-content {
+      flex: 1;
+    }
+
+    .plan-name {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+
+    .plan-name h3 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 1.2rem;
+    }
+
+    .plan-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .plan-features {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .plan-features li {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--text);
+      line-height: 1.5;
+      font-size: 0.95rem;
+    }
+
+    .plan-features .off {
+      color: var(--muted);
+    }
+
+    .plan-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: #eef3fb;
+      color: var(--navy);
+    }
+
+    .pill.included {
+      background: rgba(34,160,107,0.12);
+      color: #166a48;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 26px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 14px;
+      padding: 14px 18px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.2s ease;
+      min-width: 140px;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .btn-secondary {
+      background: #edf2f9;
+      color: var(--navy);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange) 0%, #ffbb47 100%);
+      color: #fff;
+      box-shadow: 0 14px 28px rgba(245,166,35,0.28);
+    }
+
+    .btn-primary:hover { background: linear-gradient(135deg, #ffb53a 0%, #f5a623 100%); }
+
+    .status {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      display: none;
+    }
+
+    .status.success {
+      display: block;
+      background: rgba(34,160,107,0.12);
+      color: #166a48;
+      border: 1px solid rgba(34,160,107,0.2);
+    }
+
+    .status.error {
+      display: block;
+      background: rgba(214,69,69,0.1);
+      color: #a12d2d;
+      border: 1px solid rgba(214,69,69,0.15);
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .summary-block h3 {
+      margin: 0 0 12px;
+      color: var(--navy);
+      font-size: 1.05rem;
+    }
+
+    .summary-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed #d7deea;
+      font-size: 0.93rem;
+    }
+
+    .summary-item:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .summary-item strong { color: var(--navy); }
+    .summary-item span {
+      color: var(--muted);
+      text-align: right;
+      word-break: break-word;
+    }
+
+    .total {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+      color: #fff;
+      margin-top: 16px;
+    }
+
+    .total small {
+      display: block;
+      color: rgba(255,255,255,0.7);
+      margin-top: 4px;
+    }
+
+    .total-price {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--orange);
+      text-align: right;
+    }
+
+    .success-screen {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-screen.show { display: block; }
+
+    .success-icon {
+      width: 84px;
+      height: 84px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(34,160,107,0.12);
+      color: var(--success);
+      font-size: 2.4rem;
+      font-weight: 900;
+    }
+
+    .success-screen h2 { margin-bottom: 10px; }
+    .success-screen p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 0.85rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (min-width: 760px) {
+      .shell { padding: 32px 24px 56px; }
+      .hero { padding: 34px; }
+      form { padding: 28px; }
+      .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .plan-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .hours-row {
+        grid-template-columns: 1fr;
+      }
+      .hours-row .inputs {
+        grid-template-columns: 1fr;
+      }
+      .service-card {
+        flex-direction: column;
+      }
+      .price { margin-left: 34px; }
+      .summary-item {
+        flex-direction: column;
+        gap: 4px;
+      }
+      .summary-item span { text-align: left; }
+      .nav .btn { width: 100%; }
+      .plan-name {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .plan-price {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <div class="brand"><span class="brand-dot"></span> LeoLan Digital · KI Kunden-Onboarding</div>
+      <h1>Von Kauf zu Live-System – in wenigen Minuten.</h1>
+      <p>
+        Dieses Onboarding sammelt alle Daten für Ihr Restaurant, damit wir Ihr KI-System automatisch bereitstellen können.
+        Zwischenspeicherung läuft automatisch – Sie können jederzeit später weitermachen.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="progress-wrap" id="formContainer">
+        <div class="progress-head">
+          <div>
+            <div class="progress-label" id="progressLabel">Schritt 0 von 5</div>
+            <div class="progress-meta" id="progressMeta">Paket auswählen</div>
+          </div>
+          <div class="progress-meta" id="saveState">Zwischenspeicherung aktiv</div>
+        </div>
+        <div class="progress-bar" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <form id="onboardingForm" novalidate>
+        <div class="step active" data-step="0">
+          <span class="step-tag">Schritt 0</span>
+          <h2>Paket auswählen</h2>
+          <p class="intro">Wählen Sie das passende Paket für Ihr Restaurant. Das Professional-Paket ist für die meisten Betriebe die beste Wahl.</p>
+
+          <div class="plan-grid" id="planGrid">
+            <label class="plan-card" data-plan-card="starter">
+              <input class="plan-selector" type="radio" name="selectedPlan" value="starter" />
+              <div class="plan-badge">🥉 Starter</div>
+              <div class="plan-header">
+                <div class="plan-content">
+                  <div class="plan-name">
+                    <h3>STARTER</h3>
+                    <div class="plan-price">149€/Monat</div>
+                  </div>
+                  <p class="plan-subtitle">Für Restaurants, die mit WhatsApp-Automatisierung starten.</p>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span>✅</span><span>WhatsApp KI-Bot</span></li>
+                <li><span>✅</span><span>Reservierungen automatisch</span></li>
+                <li><span>✅</span><span>Gäste-CRM</span></li>
+                <li><span>✅</span><span>Digitale Stempelkarte</span></li>
+                <li class="off"><span>❌</span><span>Social Media</span></li>
+                <li class="off"><span>❌</span><span>Google Business</span></li>
+              </ul>
+            </label>
+
+            <label class="plan-card recommended" data-plan-card="professional">
+              <input class="plan-selector" type="radio" name="selectedPlan" value="professional" />
+              <div class="plan-badge">🥈 Empfohlen</div>
+              <div class="plan-header">
+                <div class="plan-content">
+                  <div class="plan-name">
+                    <h3>PROFESSIONAL</h3>
+                    <div class="plan-price">249€/Monat</div>
+                  </div>
+                  <p class="plan-subtitle">Der beste Mix aus Automatisierung, Sichtbarkeit und Management.</p>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span>✅</span><span>Alles aus Starter</span></li>
+                <li><span>✅</span><span>Instagram + Facebook Auto-Posts</span></li>
+                <li><span>✅</span><span>Google Business Management</span></li>
+                <li><span>✅</span><span>KI-Bewertungsmanagement</span></li>
+                <li><span>✅</span><span>Dashboard</span></li>
+                <li class="off"><span>❌</span><span>Priority Support</span></li>
+              </ul>
+            </label>
+
+            <label class="plan-card" data-plan-card="enterprise">
+              <input class="plan-selector" type="radio" name="selectedPlan" value="enterprise" />
+              <div class="plan-badge">🥇 Enterprise</div>
+              <div class="plan-header">
+                <div class="plan-content">
+                  <div class="plan-name">
+                    <h3>ENTERPRISE</h3>
+                    <div class="plan-price">399€/Monat</div>
+                  </div>
+                  <p class="plan-subtitle">Für Betriebe mit maximalem Support und individueller Betreuung.</p>
+                </div>
+              </div>
+              <ul class="plan-features">
+                <li><span>✅</span><span>Alles aus Professional</span></li>
+                <li><span>✅</span><span>Eigene Domain (bot.restaurant.de)</span></li>
+                <li><span>✅</span><span>Priority Support 24/7</span></li>
+                <li><span>✅</span><span>Monatliches Reporting</span></li>
+                <li><span>✅</span><span>Onboarding Call mit Experten</span></li>
+              </ul>
+            </label>
+          </div>
+
+          <div class="plan-error" id="planError">Bitte wählen Sie ein Paket aus.</div>
+        </div>
+
+        <div class="step" data-step="1">
+          <span class="step-tag">Schritt 1</span>
+          <h2>Restaurant-Infos</h2>
+          <p class="intro">Je präziser die Informationen, desto besser kann Ihr KI-Bot Anfragen beantworten und Bestellungen unterstützen.</p>
+
+          <div class="grid two">
+            <div class="field" data-field="restaurantName">
+              <label for="restaurantName">Restaurant Name <span class="req">*</span></label>
+              <input type="text" id="restaurantName" name="restaurantName" placeholder="z. B. Trattoria Bella Vita" required />
+              <div class="error">Bitte Restaurantnamen eingeben.</div>
+            </div>
+
+            <div class="field" data-field="customerEmail">
+              <label for="customerEmail">E-Mail für Rechnung & Setup <span class="req">*</span></label>
+              <input type="email" id="customerEmail" name="customerEmail" placeholder="name@restaurant.de" required />
+              <div class="error">Bitte eine gültige E-Mail-Adresse eingeben.</div>
+            </div>
+
+            <div class="field" data-field="address">
+              <label for="address">Adresse <span class="req">*</span></label>
+              <input type="text" id="address" name="address" placeholder="Straße, Hausnummer, PLZ, Ort" required />
+              <div class="error">Bitte Adresse eingeben.</div>
+            </div>
+
+            <div class="field" data-field="phone">
+              <label for="phone">Telefonnummer</label>
+              <input type="tel" id="phone" name="phone" placeholder="+49 ..." />
+            </div>
+
+            <div class="field" data-field="website">
+              <label for="website">Website</label>
+              <input type="url" id="website" name="website" placeholder="https://..." />
+              <div class="error">Bitte eine gültige URL eingeben.</div>
+            </div>
+          </div>
+
+          <div class="field" style="margin-top: 16px;">
+            <label>Öffnungszeiten</label>
+            <div class="hours-grid" id="hoursGrid"></div>
+            <div class="hint">Für jeden Tag entweder Öffnungszeit eintragen oder als geschlossen markieren.</div>
+          </div>
+
+          <div class="grid two" style="margin-top: 16px;">
+            <div class="field" data-field="description">
+              <label for="description">Kurze Beschreibung</label>
+              <textarea id="description" name="description" placeholder="Was macht Ihr Restaurant aus? Welche Küche, Atmosphäre, Besonderheiten?"></textarea>
+              <div class="hint">Wird als Kontext für den KI-Bot genutzt.</div>
+            </div>
+
+            <div class="field" data-field="menuText">
+              <label for="menuText">Speisekarte</label>
+              <textarea id="menuText" name="menuText" placeholder="Beliebte Gerichte, Kategorien, Preise, Extras, Allergene, Lieferinfos ..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="step" data-step="2">
+          <span class="step-tag">Schritt 2</span>
+          <h2>WhatsApp Setup</h2>
+          <p class="intro">Wir verbinden Ihr System mit WhatsApp Business, damit Kunden direkt über WhatsApp mit Ihrem KI-Assistenten schreiben können.</p>
+
+          <div class="callout">
+            <strong>Meta / WhatsApp Business vorbereiten</strong>
+            Falls Sie Ihre Zugangsdaten noch nicht haben: Legen Sie diese in der Meta Developer Console an unter
+            <a href="https://developers.facebook.com/" target="_blank" rel="noopener noreferrer">developers.facebook.com</a>.
+          </div>
+
+          <div class="grid two">
+            <div class="field" data-field="whatsappAccessToken">
+              <label for="whatsappAccessToken">WhatsApp Access Token <span class="req">*</span></label>
+              <input type="text" id="whatsappAccessToken" name="whatsappAccessToken" placeholder="Meta Access Token" required />
+              <div class="error">Bitte den WhatsApp Access Token eingeben.</div>
+            </div>
+
+            <div class="field" data-field="phoneNumberId">
+              <label for="phoneNumberId">Phone Number ID <span class="req">*</span></label>
+              <input type="text" id="phoneNumberId" name="phoneNumberId" placeholder="z. B. 123456789012345" required />
+              <div class="error">Bitte die Phone Number ID eingeben.</div>
+            </div>
+          </div>
+
+          <label class="service-card" style="margin-top: 16px;">
+            <input type="checkbox" id="whatsappSetup" name="whatsappSetup" />
+            <div>
+              <strong>Wir richten WhatsApp für Sie ein</strong>
+              <span>Wir übernehmen die technische Einrichtung, prüfen die API-Verbindung und testen das erste Setup für Ihr Restaurant.</span>
+            </div>
+            <div class="price">+ 49€</div>
+          </label>
+        </div>
+
+        <div class="step" data-step="3">
+          <span class="step-tag">Schritt 3</span>
+          <h2>Social Media</h2>
+          <p class="intro">Optional können wir Ihr KI-System auch mit Social Media Kanälen verbinden, um Anfragen und Inhalte effizienter zu bearbeiten.</p>
+
+          <div class="grid two">
+            <div class="field" data-field="instagramName">
+              <label for="instagramName">Instagram Account Name</label>
+              <input type="text" id="instagramName" name="instagramName" placeholder="@restaurantname" />
+            </div>
+
+            <div class="field" data-field="instagramAccessToken">
+              <label for="instagramAccessToken">Instagram Access Token</label>
+              <input type="text" id="instagramAccessToken" name="instagramAccessToken" placeholder="Optional" />
+            </div>
+
+            <div class="field" data-field="facebookPageId">
+              <label for="facebookPageId">Facebook Page ID</label>
+              <input type="text" id="facebookPageId" name="facebookPageId" placeholder="Optional" />
+            </div>
+          </div>
+
+          <label class="service-card" style="margin-top: 16px;" id="socialSetupCard">
+            <input type="checkbox" id="socialSetup" name="socialSetup" />
+            <div>
+              <strong>Wir richten Social Media für Sie ein</strong>
+              <span id="socialSetupDescription">Wir verbinden Ihre Profile, prüfen die relevanten IDs und bereiten die technische Integration für den Betrieb vor.</span>
+              <div class="plan-note" id="socialIncludedHint" style="display:none;">In Ihrem gewählten Paket bereits enthalten.</div>
+            </div>
+            <div class="price" id="socialSetupPrice">+ 29€</div>
+          </label>
+        </div>
+
+        <div class="step" data-step="4">
+          <span class="step-tag">Schritt 4</span>
+          <h2>Google Business</h2>
+          <p class="intro">Wenn vorhanden, können wir Ihr Google Business Profil in die Einrichtung einbeziehen – für bessere Sichtbarkeit und konsistente Daten.</p>
+
+          <div class="field" data-field="googleBusinessUrl">
+            <label for="googleBusinessUrl">Google Business Profil URL</label>
+            <input type="url" id="googleBusinessUrl" name="googleBusinessUrl" placeholder="https://..." />
+            <div class="error">Bitte eine gültige URL eingeben.</div>
+          </div>
+
+          <label class="service-card" style="margin-top: 16px;" id="googleSetupCard">
+            <input type="checkbox" id="googleSetup" name="googleSetup" />
+            <div>
+              <strong>Wir richten Google Business für Sie ein</strong>
+              <span id="googleSetupDescription">Wir prüfen Ihr Profil, optimieren die wichtigsten Basisdaten und integrieren das Profil in den Onboarding-Prozess.</span>
+              <div class="plan-note" id="googleIncludedHint" style="display:none;">In Ihrem gewählten Paket bereits enthalten.</div>
+            </div>
+            <div class="price" id="googleSetupPrice">+ 29€</div>
+          </label>
+        </div>
+
+        <div class="step" data-step="5">
+          <span class="step-tag">Schritt 5</span>
+          <h2>Zusammenfassung & Checkout</h2>
+          <p class="intro">Prüfen Sie Ihre Angaben. Mit dem finalen Klick erstellen wir Ihren Stripe Checkout und richten danach Ihr System ein.</p>
+
+          <div class="summary-grid">
+            <div class="summary-block">
+              <h3>Paket</h3>
+              <div class="summary-list" id="summaryPlan"></div>
+            </div>
+
+            <div class="summary-block">
+              <h3>Restaurant & Kontakt</h3>
+              <div class="summary-list" id="summaryRestaurant"></div>
+            </div>
+
+            <div class="summary-block">
+              <h3>Integrationen</h3>
+              <div class="summary-list" id="summaryIntegrations"></div>
+            </div>
+
+            <div class="summary-block">
+              <h3>Öffnungszeiten</h3>
+              <div class="summary-list" id="summaryHours"></div>
+            </div>
+
+            <div class="summary-block">
+              <h3>Zusatzleistungen</h3>
+              <div class="summary-list" id="summaryServices"></div>
+            </div>
+
+            <div class="summary-block">
+              <h3>Gesamtpreis</h3>
+              <div class="summary-list" id="summaryPricing"></div>
+              <div class="total">
+                <div>
+                  <strong>Jetzt fällig im Checkout</strong>
+                  <small>Gewähltes Paket + optionale Zusatzleistungen</small>
+                </div>
+                <div class="total-price" id="summaryTotal">149€</div>
+              </div>
+            </div>
+          </div>
+
+          <div id="submitStatus" class="status" aria-live="polite"></div>
+        </div>
+
+        <div class="nav" id="formNav">
+          <button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button>
+          <button type="button" class="btn btn-primary" id="nextBtn">Weiter</button>
+          <button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Jetzt kaufen &amp; System einrichten</button>
+        </div>
+      </form>
+
+      <div class="success-screen" id="successScreen">
+        <div class="success-icon">🎉</div>
+        <h2>Zahlung erfolgreich!</h2>
+        <p>
+          Ihr System wird eingerichtet. Sie erhalten in 24h eine E-Mail.
+        </p>
+        <div class="footer-note">LeoLan Digital startet jetzt die technische Einrichtung Ihres Pakets.</div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'leolan-onboarding-data-v2';
+    const CHECKOUT_WEBHOOK_URL = 'https://n8n.leolan.net/webhook/stripe-checkout';
+    const STRIPE_PUBLISHABLE_KEY = 'pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX';
+    const DISPLAY_STEPS = [0, 1, 2, 3, 4, 5];
+    const DISPLAY_LAST_STEP = 5;
+
+    const PLANS = {
+      starter: {
+        key: 'starter',
+        label: 'Starter',
+        displayName: '🥉 STARTER',
+        priceLabel: '149€/Monat',
+        price: 149,
+        priceId: 'price_1TK4GxLwGb6me8PhVFEmWFXN',
+        includes: []
+      },
+      professional: {
+        key: 'professional',
+        label: 'Professional',
+        displayName: '🥈 PROFESSIONAL',
+        priceLabel: '249€/Monat',
+        price: 249,
+        priceId: 'price_1TK4GyLwGb6me8PhjSuNIQgn',
+        includes: ['socialSetup', 'googleSetup']
+      },
+      enterprise: {
+        key: 'enterprise',
+        label: 'Enterprise',
+        displayName: '🥇 ENTERPRISE',
+        priceLabel: '399€/Monat',
+        price: 399,
+        priceId: 'price_1TK4GzLwGb6me8PhBjH6RIwY',
+        includes: ['socialSetup', 'googleSetup']
+      }
+    };
+
+    const SERVICES = {
+      whatsappSetup: { label: 'WhatsApp Einrichtung', price: 49 },
+      socialSetup: { label: 'Social Media Einrichtung', price: 29 },
+      googleSetup: { label: 'Google Business Einrichtung', price: 29 }
+    };
+
+    const days = [
+      { key: 'monday', label: 'Mo' },
+      { key: 'tuesday', label: 'Di' },
+      { key: 'wednesday', label: 'Mi' },
+      { key: 'thursday', label: 'Do' },
+      { key: 'friday', label: 'Fr' },
+      { key: 'saturday', label: 'Sa' },
+      { key: 'sunday', label: 'So' }
+    ];
+
+    const stepTitles = {
+      0: 'Paket auswählen',
+      1: 'Restaurant-Infos',
+      2: 'WhatsApp Setup',
+      3: 'Social Media',
+      4: 'Google Business',
+      5: 'Zusammenfassung & Checkout'
+    };
+
+    const form = document.getElementById('onboardingForm');
+    const steps = Array.from(document.querySelectorAll('.step'));
+    const progressFill = document.getElementById('progressFill');
+    const progressLabel = document.getElementById('progressLabel');
+    const progressMeta = document.getElementById('progressMeta');
+    const saveState = document.getElementById('saveState');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const submitStatus = document.getElementById('submitStatus');
+    const successScreen = document.getElementById('successScreen');
+    const formNav = document.getElementById('formNav');
+    const formContainer = document.getElementById('formContainer');
+    const hoursGrid = document.getElementById('hoursGrid');
+    const planError = document.getElementById('planError');
+
+    let currentStep = 0;
+
+    function buildHoursInputs() {
+      hoursGrid.innerHTML = days.map(day => `
+        <div>
+          <div class="hours-row" data-day="${day.key}">
+            <label for="${day.key}From">${day.label}</label>
+            <div class="inputs">
+              <input type="time" id="${day.key}From" name="${day.key}From" />
+              <input type="time" id="${day.key}To" name="${day.key}To" />
+              <label class="closed-wrap" for="${day.key}Closed">
+                <input type="checkbox" id="${day.key}Closed" name="${day.key}Closed" /> geschlossen
+              </label>
+            </div>
+          </div>
+          <div class="error">Bitte entweder Öffnungszeiten eintragen oder als geschlossen markieren.</div>
+        </div>
+      `).join('');
+
+      days.forEach(day => {
+        const closed = document.getElementById(`${day.key}Closed`);
+        const from = document.getElementById(`${day.key}From`);
+        const to = document.getElementById(`${day.key}To`);
+
+        const sync = () => {
+          const isClosed = closed.checked;
+          from.disabled = isClosed;
+          to.disabled = isClosed;
+          if (isClosed) {
+            from.value = '';
+            to.value = '';
+          }
+          clearHoursError(day.key);
+          persistForm();
+        };
+
+        closed.addEventListener('change', sync);
+        from.addEventListener('input', () => { clearHoursError(day.key); persistForm(); });
+        to.addEventListener('input', () => { clearHoursError(day.key); persistForm(); });
+      });
+    }
+
+    function getSelectedPlanKey() {
+      const selected = document.querySelector('input[name="selectedPlan"]:checked');
+      return selected ? selected.value : '';
+    }
+
+    function getSelectedPlan() {
+      return PLANS[getSelectedPlanKey()] || null;
+    }
+
+    function serviceIncludedInPlan(serviceKey, planKey = getSelectedPlanKey()) {
+      const plan = PLANS[planKey];
+      return plan ? plan.includes.includes(serviceKey) : false;
+    }
+
+    function getChargedServices(data = getFormData()) {
+      return Object.entries(SERVICES)
+        .filter(([key]) => data[key] && !serviceIncludedInPlan(key, data.selectedPlan))
+        .map(([key, service]) => ({ key, ...service }));
+    }
+
+    function getFormData() {
+      const data = {
+        selectedPlan: getSelectedPlanKey(),
+        customerEmail: document.getElementById('customerEmail').value.trim(),
+        restaurantName: document.getElementById('restaurantName').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        website: document.getElementById('website').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        menuText: document.getElementById('menuText').value.trim(),
+        whatsappAccessToken: document.getElementById('whatsappAccessToken').value.trim(),
+        phoneNumberId: document.getElementById('phoneNumberId').value.trim(),
+        whatsappSetup: document.getElementById('whatsappSetup').checked,
+        instagramName: document.getElementById('instagramName').value.trim(),
+        instagramAccessToken: document.getElementById('instagramAccessToken').value.trim(),
+        facebookPageId: document.getElementById('facebookPageId').value.trim(),
+        socialSetup: document.getElementById('socialSetup').checked,
+        googleBusinessUrl: document.getElementById('googleBusinessUrl').value.trim(),
+        googleSetup: document.getElementById('googleSetup').checked,
+        hours: {}
+      };
+
+      days.forEach(day => {
+        data.hours[day.key] = {
+          from: document.getElementById(`${day.key}From`).value,
+          to: document.getElementById(`${day.key}To`).value,
+          closed: document.getElementById(`${day.key}Closed`).checked
+        };
+      });
+
+      return data;
+    }
+
+    function persistForm() {
+      const data = getFormData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      saveState.textContent = `Automatisch gespeichert · ${new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}`;
+    }
+
+    function restoreForm() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+
+        if (data.selectedPlan) {
+          const planField = document.querySelector(`input[name="selectedPlan"][value="${data.selectedPlan}"]`);
+          if (planField) planField.checked = true;
+        }
+
+        Object.entries(data).forEach(([key, value]) => {
+          if (key === 'hours' || key === 'selectedPlan') return;
+          const field = document.getElementById(key);
+          if (!field) return;
+          if (field.type === 'checkbox') field.checked = Boolean(value);
+          else field.value = value || '';
+        });
+
+        if (data.hours) {
+          days.forEach(day => {
+            const dayData = data.hours[day.key] || {};
+            document.getElementById(`${day.key}From`).value = dayData.from || '';
+            document.getElementById(`${day.key}To`).value = dayData.to || '';
+            document.getElementById(`${day.key}Closed`).checked = Boolean(dayData.closed);
+            document.getElementById(`${day.key}Closed`).dispatchEvent(new Event('change'));
+          });
+        }
+      } catch (error) {
+        console.error('Restore failed', error);
+      }
+
+      syncPlanDependentUI();
+      highlightSelectedPlan();
+    }
+
+    function markInvalid(fieldName, invalid = true) {
+      const wrap = document.querySelector(`.field[data-field="${fieldName}"]`);
+      if (!wrap) return;
+      wrap.classList.toggle('invalid', invalid);
+    }
+
+    function highlightSelectedPlan() {
+      document.querySelectorAll('[data-plan-card]').forEach(card => {
+        const selected = getSelectedPlanKey() === card.dataset.planCard;
+        card.classList.toggle('selected', selected);
+      });
+      planError.classList.remove('show');
+    }
+
+    function syncPlanDependentUI() {
+      const selectedPlan = getSelectedPlan();
+      const socialCheckbox = document.getElementById('socialSetup');
+      const googleCheckbox = document.getElementById('googleSetup');
+      const socialHint = document.getElementById('socialIncludedHint');
+      const googleHint = document.getElementById('googleIncludedHint');
+      const socialPrice = document.getElementById('socialSetupPrice');
+      const googlePrice = document.getElementById('googleSetupPrice');
+
+      const socialIncluded = selectedPlan ? selectedPlan.includes.includes('socialSetup') : false;
+      const googleIncluded = selectedPlan ? selectedPlan.includes.includes('googleSetup') : false;
+
+      socialCheckbox.disabled = socialIncluded;
+      googleCheckbox.disabled = googleIncluded;
+
+      if (socialIncluded) socialCheckbox.checked = false;
+      if (googleIncluded) googleCheckbox.checked = false;
+
+      socialHint.style.display = socialIncluded ? 'block' : 'none';
+      googleHint.style.display = googleIncluded ? 'block' : 'none';
+      socialPrice.textContent = socialIncluded ? 'Inklusive' : '+ 29€';
+      googlePrice.textContent = googleIncluded ? 'Inklusive' : '+ 29€';
+    }
+
+    function validateUrlMaybe(value) {
+      if (!value) return true;
+      try {
+        new URL(value);
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    function validateEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
+    function validateHours() {
+      let valid = true;
+      days.forEach(day => {
+        const row = document.querySelector(`.hours-row[data-day="${day.key}"]`);
+        const from = document.getElementById(`${day.key}From`).value;
+        const to = document.getElementById(`${day.key}To`).value;
+        const closed = document.getElementById(`${day.key}Closed`).checked;
+
+        const rowValid = closed || (from && to);
+        row.classList.toggle('invalid', !rowValid);
+        if (!rowValid) valid = false;
+      });
+      return valid;
+    }
+
+    function clearHoursError(dayKey) {
+      const row = document.querySelector(`.hours-row[data-day="${dayKey}"]`);
+      if (row) row.classList.remove('invalid');
+    }
+
+    function validateStep(step) {
+      const data = getFormData();
+      let valid = true;
+
+      if (step === 0) {
+        const hasPlan = Boolean(data.selectedPlan);
+        planError.classList.toggle('show', !hasPlan);
+        valid = hasPlan;
+      }
+
+      if (step === 1) {
+        const required = [
+          ['restaurantName', data.restaurantName],
+          ['address', data.address]
+        ];
+
+        required.forEach(([name, value]) => {
+          const fieldValid = Boolean(value);
+          markInvalid(name, !fieldValid);
+          if (!fieldValid) valid = false;
+        });
+
+        const emailValid = validateEmail(data.customerEmail);
+        markInvalid('customerEmail', !emailValid);
+        if (!emailValid) valid = false;
+
+        const websiteValid = validateUrlMaybe(data.website);
+        markInvalid('website', !websiteValid);
+        if (!websiteValid) valid = false;
+
+        if (!validateHours()) valid = false;
+      }
+
+      if (step === 2) {
+        [['whatsappAccessToken', data.whatsappAccessToken], ['phoneNumberId', data.phoneNumberId]].forEach(([name, value]) => {
+          const fieldValid = Boolean(value);
+          markInvalid(name, !fieldValid);
+          if (!fieldValid) valid = false;
+        });
+      }
+
+      if (step === 4) {
+        const urlValid = validateUrlMaybe(data.googleBusinessUrl);
+        markInvalid('googleBusinessUrl', !urlValid);
+        if (!urlValid) valid = false;
+      }
+
+      return valid;
+    }
+
+    function updateSummary() {
+      const data = getFormData();
+      const selectedPlan = PLANS[data.selectedPlan];
+      const planSummary = document.getElementById('summaryPlan');
+      const restaurantSummary = document.getElementById('summaryRestaurant');
+      const integrationsSummary = document.getElementById('summaryIntegrations');
+      const hoursSummary = document.getElementById('summaryHours');
+      const servicesSummary = document.getElementById('summaryServices');
+      const pricingSummary = document.getElementById('summaryPricing');
+      const totalSummary = document.getElementById('summaryTotal');
+
+      const includedItems = selectedPlan
+        ? selectedPlan.includes.map(key => SERVICES[key]?.label).filter(Boolean)
+        : [];
+
+      planSummary.innerHTML = [
+        ['Gewähltes Paket', selectedPlan ? `${selectedPlan.displayName} · ${selectedPlan.priceLabel}` : '—'],
+        ['Stripe Price ID', selectedPlan ? selectedPlan.priceId : '—'],
+        ['Inklusive Leistungen', includedItems.length ? includedItems.join(', ') : 'Keine zusätzlichen Inklusiv-Leistungen']
+      ].map(renderSummaryItem).join('');
+
+      const restaurantItems = [
+        ['Restaurant', data.restaurantName || '—'],
+        ['E-Mail', data.customerEmail || '—'],
+        ['Adresse', data.address || '—'],
+        ['Telefon', data.phone || '—'],
+        ['Website', data.website || '—'],
+        ['Beschreibung', data.description || '—'],
+        ['Speisekarte', data.menuText ? truncate(data.menuText, 140) : '—']
+      ];
+
+      restaurantSummary.innerHTML = restaurantItems.map(renderSummaryItem).join('');
+
+      const integrationsItems = [
+        ['WhatsApp Access Token', maskSecret(data.whatsappAccessToken)],
+        ['Phone Number ID', data.phoneNumberId || '—'],
+        ['Instagram', data.instagramName || '—'],
+        ['Instagram Token', data.instagramAccessToken ? maskSecret(data.instagramAccessToken) : '—'],
+        ['Facebook Page ID', data.facebookPageId || '—'],
+        ['Google Business', data.googleBusinessUrl || '—']
+      ];
+
+      integrationsSummary.innerHTML = integrationsItems.map(renderSummaryItem).join('');
+
+      hoursSummary.innerHTML = days.map(day => {
+        const value = data.hours[day.key];
+        const text = value.closed ? 'Geschlossen' : (value.from && value.to ? `${value.from} – ${value.to}` : 'Nicht angegeben');
+        return renderSummaryItem([day.label, text]);
+      }).join('');
+
+      const chargedServices = getChargedServices(data);
+      const includedServices = Object.entries(SERVICES)
+        .filter(([key]) => serviceIncludedInPlan(key, data.selectedPlan))
+        .map(([, service]) => service);
+
+      const serviceItems = [
+        ...chargedServices.map(service => [service.label, `+ ${service.price}€`]),
+        ...includedServices.map(service => [`${service.label}`, 'Im Paket enthalten'])
+      ];
+
+      servicesSummary.innerHTML = serviceItems.length
+        ? serviceItems.map(renderSummaryItem).join('')
+        : renderSummaryItem(['Zusatzleistungen', 'Keine gewählt']);
+
+      const addonsTotal = chargedServices.reduce((sum, service) => sum + service.price, 0);
+      const planPrice = selectedPlan ? selectedPlan.price : 0;
+      const total = planPrice + addonsTotal;
+
+      pricingSummary.innerHTML = [
+        ['Paketpreis', selectedPlan ? `${planPrice}€ / Monat` : '—'],
+        ['Zusatzleistungen', `${addonsTotal}€`],
+        ['Checkout gesamt', `${total}€`]
+      ].map(renderSummaryItem).join('');
+
+      totalSummary.textContent = `${total}€`;
+    }
+
+    function renderSummaryItem([label, value]) {
+      return `<div class="summary-item"><strong>${escapeHtml(label)}</strong><span>${escapeHtml(value)}</span></div>`;
+    }
+
+    function truncate(text, max) {
+      return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+    }
+
+    function maskSecret(value) {
+      if (!value) return '—';
+      if (value.length <= 8) return '••••••••';
+      return `${value.slice(0, 4)}••••${value.slice(-4)}`;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function updateStep() {
+      steps.forEach(stepEl => {
+        const stepNumber = Number(stepEl.dataset.step);
+        stepEl.classList.toggle('active', stepNumber === currentStep);
+      });
+
+      const progressIndex = DISPLAY_STEPS.indexOf(currentStep);
+      const progress = ((progressIndex + 1) / DISPLAY_STEPS.length) * 100;
+      progressFill.style.width = `${progress}%`;
+      progressLabel.textContent = `Schritt ${currentStep} von ${DISPLAY_LAST_STEP}`;
+      progressMeta.textContent = stepTitles[currentStep];
+      prevBtn.style.visibility = currentStep === 0 ? 'hidden' : 'visible';
+      nextBtn.style.display = currentStep === DISPLAY_LAST_STEP ? 'none' : 'inline-flex';
+      submitBtn.style.display = currentStep === DISPLAY_LAST_STEP ? 'inline-flex' : 'none';
+
+      if (currentStep === DISPLAY_LAST_STEP) updateSummary();
+      formContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function clearValidationOnInput() {
+      document.querySelectorAll('input, textarea').forEach(field => {
+        field.addEventListener('input', () => {
+          const wrap = field.closest('.field');
+          if (wrap) wrap.classList.remove('invalid');
+          if (field.name === 'selectedPlan') {
+            highlightSelectedPlan();
+            syncPlanDependentUI();
+          }
+          persistForm();
+        });
+        field.addEventListener('change', () => {
+          if (field.name === 'selectedPlan') {
+            highlightSelectedPlan();
+            syncPlanDependentUI();
+          }
+          persistForm();
+        });
+      });
+    }
+
+    function showSuccessState() {
+      form.style.display = 'none';
+      formNav.style.display = 'none';
+      formContainer.style.display = 'none';
+      successScreen.classList.add('show');
+    }
+
+    async function createCheckoutSession() {
+      updateSummary();
+      const data = getFormData();
+      const selectedPlan = getSelectedPlan();
+      const chargedServices = getChargedServices(data);
+      const additionalServicesTotal = chargedServices.reduce((sum, service) => sum + service.price, 0);
+      const totalPrice = (selectedPlan ? selectedPlan.price : 0) + additionalServicesTotal;
+
+      const payload = {
+        submittedAt: new Date().toISOString(),
+        source: 'LeoLan Digital Onboarding SPA',
+        stripePublishableKey: STRIPE_PUBLISHABLE_KEY,
+        priceId: selectedPlan?.priceId || '',
+        customerEmail: data.customerEmail,
+        restaurantName: data.restaurantName,
+        selectedPlan: selectedPlan ? {
+          key: selectedPlan.key,
+          label: selectedPlan.label,
+          displayName: selectedPlan.displayName,
+          price: selectedPlan.price,
+          priceLabel: selectedPlan.priceLabel,
+          priceId: selectedPlan.priceId
+        } : null,
+        selectedServices: chargedServices,
+        includedServices: Object.entries(SERVICES)
+          .filter(([key]) => serviceIncludedInPlan(key, data.selectedPlan))
+          .map(([key, service]) => ({ key, ...service })),
+        additionalServicesTotal,
+        totalPrice,
+        successUrl: 'https://onboarding.leolan.net?success=true',
+        cancelUrl: 'https://onboarding.leolan.net',
+        ...data
+      };
+
+      const response = await fetch(CHECKOUT_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const contentType = response.headers.get('content-type') || '';
+      const result = contentType.includes('application/json') ? await response.json() : { url: (await response.text()).trim() };
+      const checkoutUrl = result.url || result.checkoutUrl || result.data?.url;
+
+      if (!checkoutUrl || !/^https?:\/\//.test(checkoutUrl)) {
+        throw new Error('Keine gültige Checkout-URL erhalten.');
+      }
+
+      localStorage.removeItem(STORAGE_KEY);
+      window.location.href = checkoutUrl;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      const currentIndex = DISPLAY_STEPS.indexOf(currentStep);
+      if (currentIndex > 0) {
+        currentStep = DISPLAY_STEPS[currentIndex - 1];
+        updateStep();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (!validateStep(currentStep)) return;
+      persistForm();
+      const currentIndex = DISPLAY_STEPS.indexOf(currentStep);
+      if (currentIndex < DISPLAY_STEPS.length - 1) {
+        currentStep = DISPLAY_STEPS[currentIndex + 1];
+        updateStep();
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      for (const step of DISPLAY_STEPS) {
+        if (!validateStep(step)) {
+          currentStep = step;
+          updateStep();
+          return;
+        }
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Checkout wird erstellt...';
+      submitStatus.className = 'status';
+      submitStatus.textContent = '';
+
+      try {
+        await createCheckoutSession();
+      } catch (error) {
+        console.error(error);
+        submitStatus.className = 'status error';
+        submitStatus.textContent = 'Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Jetzt kaufen & System einrichten';
+      }
+    });
+
+    function initSuccessStateIfNeeded() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('success') === 'true') {
+        localStorage.removeItem(STORAGE_KEY);
+        showSuccessState();
+      }
+    }
+
+    buildHoursInputs();
+    restoreForm();
+    clearValidationOnInput();
+    highlightSelectedPlan();
+    syncPlanDependentUI();
+    initSuccessStateIfNeeded();
+    updateStep();
+  </script>
+</body>
+</html>
