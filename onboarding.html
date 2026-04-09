@@ -107,6 +107,23 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function bindEvents(){document.querySelectorAll('input,textarea').forEach(field=>{field.addEventListener('input',()=>{const wrap=field.closest('.field');if(wrap)wrap.classList.remove('invalid');if(field.name==='selectedModules')updateSelectionUI();persistForm()});field.addEventListener('change',async()=>{if(field.name==='selectedModules')updateSelectionUI();if(field.id==='logoUpload'){await handleLogoUpload(field.files?.[0]);return}if(field.id==='menuUpload'){await handleMenuUpload(field.files?.[0]);return}if(field.id==='foodPhotos'){await handleFoodPhotos(field.files);return}persistForm()})});document.getElementById('zipCode').addEventListener('blur',lookupGermanCity);document.getElementById('zipCode').addEventListener('change',lookupGermanCity);prevBtn.addEventListener('click',()=>{if(currentStep>0){currentStep-=1;updateStep()}});nextBtn.addEventListener('click',()=>{if(!validateStep(currentStep))return;persistForm();if(currentStep<TOTAL_STEPS-1){currentStep+=1;updateStep()}});form.addEventListener('submit',async e=>{e.preventDefault();for(let i=0;i<TOTAL_STEPS;i+=1){if(!validateStep(i)){currentStep=i;updateStep();return}}const agb=document.getElementById('agbCheck')?.checked;const b2b=document.getElementById('b2bCheck')?.checked;const sub=document.getElementById('subscriptionCheck')?.checked;if(!agb||!b2b||!sub){document.getElementById('checkboxError').style.display='block';return;}document.getElementById('checkboxError').style.display='none';submitBtn.disabled=true;submitBtn.textContent='Checkout wird erstellt...';submitStatus.className='status';submitStatus.textContent='';try{await createCheckoutSession()}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.'}finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten'}})}
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();updateStep();
+
+    // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
+    function updateSubmitBtn() {
+      const agb = document.getElementById('agbCheck')?.checked;
+      const b2b = document.getElementById('b2bCheck')?.checked;
+      const sub = document.getElementById('subscriptionCheck')?.checked;
+      if (submitBtn) {
+        submitBtn.disabled = !(agb && b2b && sub);
+        submitBtn.style.opacity = (agb && b2b && sub) ? '1' : '0.4';
+        submitBtn.title = (agb && b2b && sub) ? '' : 'Bitte alle Pflichtfelder bestätigen';
+      }
+    }
+    ['agbCheck','b2bCheck','subscriptionCheck'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('change', updateSubmitBtn);
+    });
+    updateSubmitBtn();
   </script>
 </body>
 </html>
