@@ -74,35 +74,9 @@
 </div>
 <div id="checkboxError" style="display:none;margin-top:10px;color:#d64545;font-size:13px;font-weight:bold">Bitte bestätigen Sie alle Pflichtfelder.</div>
 <div id="submitStatus" class="status" aria-live="polite"></div></div>
-        <div class="nav" id="formNav"><button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button><button type="button" class="btn btn-primary" id="nextBtn">Weiter</button><button type="button" class="btn btn-primary" id="submitBtn" style="display:none;" onclick="openAgbModal()">Jetzt kaufen &amp; System einrichten</button></div>
+        <div class="nav" id="formNav"><button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button><button type="button" class="btn btn-primary" id="nextBtn">Weiter</button><button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Jetzt kaufen &amp; System einrichten</button></div>
 
-    <!-- AGB MODAL - erscheint VOR Stripe -->
-    <div id="agbModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:20px">
-      <div style="background:#fff;border-radius:20px;padding:32px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto">
-        <h2 style="color:#1a2744;font-size:20px;font-weight:900;margin:0 0 8px">Bevor Sie kaufen</h2>
-        <p style="color:#666;font-size:13px;margin:0 0 20px">Bitte bestätigen Sie folgende Punkte um fortzufahren:</p>
-        <div style="display:grid;gap:14px">
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#f8faff;border:2px solid #dbe4f3;border-radius:12px;padding:14px;transition:border-color .2s" id="agbLabel">
-            <input type="checkbox" id="agbModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
-            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich habe die <a href="https://ki.leolan.net/agb.html" target="_blank" style="color:#f5a623;font-weight:bold">AGB</a> und die <a href="https://ki.leolan.net/datenschutz.html" target="_blank" style="color:#f5a623;font-weight:bold">Datenschutzerklärung</a> gelesen und akzeptiere diese. <span style="color:#d64545">*</span></span>
-          </label>
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#f8faff;border:2px solid #dbe4f3;border-radius:12px;padding:14px;transition:border-color .2s" id="b2bLabel">
-            <input type="checkbox" id="b2bModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
-            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich bestätige, dass ich als <strong>Unternehmer (B2B)</strong> handle. <span style="color:#d64545">*</span></span>
-          </label>
-          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#fff9f0;border:2px solid rgba(245,166,35,.3);border-radius:12px;padding:14px;transition:border-color .2s" id="subLabel">
-            <input type="checkbox" id="subModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
-            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich bin einverstanden, dass das <strong>Abonnement monatlich</strong> automatisch verlängert und abgerechnet wird. Kündigung jederzeit zum Monatsende per E-Mail möglich. <span style="color:#d64545">*</span></span>
-          </label>
-        </div>
-        <div id="agbModalError" style="display:none;margin-top:10px;color:#d64545;font-size:13px;font-weight:bold">Bitte alle Pflichtfelder bestätigen.</div>
-        <div style="display:flex;gap:10px;margin-top:20px">
-          <button type="button" onclick="closeAgbModal()" style="flex:1;background:#eef3fb;color:#1a2744;border:none;border-radius:12px;padding:13px;font-weight:700;cursor:pointer;font-family:inherit">Abbrechen</button>
-          <button type="button" id="agbConfirmBtn" onclick="confirmAgbAndPay()" style="flex:2;background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:13px;font-weight:900;cursor:pointer;font-family:inherit">Akzeptieren &amp; Bezahlen</button>
-        </div>
-      </div>
-    </div>
-      </form>
+      </form>>
       <div class="success-screen" id="successScreen"><div class="success-icon">✓</div><h2>Zahlung erfolgreich</h2><p>Danke für Ihren Auftrag. Ihre Auswahl wurde übermittelt und LeoLan Digital startet jetzt mit der Einrichtung Ihres Systems. Sie erhalten im Anschluss alle weiteren Informationen per E-Mail.</p><div class="footer-note">Falls Sie Rückfragen haben, antworten Sie einfach auf Ihre Bestätigungs-E-Mail.</div></div>
     </section>
   </div>
@@ -131,48 +105,12 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function updateStep(){steps.forEach((s,i)=>s.classList.toggle('active',i===currentStep));document.querySelectorAll('[data-progress-step]').forEach(s=>{const i=Number(s.dataset.progressStep);s.classList.toggle('active',i===currentStep);s.classList.toggle('done',i<currentStep)});progressLabel.textContent=`Schritt ${currentStep+1} von ${TOTAL_STEPS}`;progressMeta.textContent=STEP_TITLES[currentStep];progressFill.style.width=`${((currentStep+1)/TOTAL_STEPS)*100}%`;prevBtn.style.visibility=currentStep===0?'hidden':'visible';nextBtn.style.display=currentStep===TOTAL_STEPS-1?'none':'inline-flex';submitBtn.style.display=currentStep===TOTAL_STEPS-1?'inline-flex':'none';if(currentStep===TOTAL_STEPS-1)updateSummary();progressContainer.scrollIntoView({behavior:'smooth',block:'start'})}
     function showSuccessState(){form.style.display='none';formNav.style.display='none';progressContainer.style.display='none';successScreen.classList.add('show')}
     async function createCheckoutSession(){const d=getFormData(),monthlyNet=getMonthlyNetTotal(),subtotalNet=monthlyNet+SETUP_FEE,reverseCharge=hasVatId(d.vatId),vatAmount=reverseCharge?0:Number((subtotalNet*VAT_RATE).toFixed(2)),grossTotal=Number((subtotalNet+vatAmount).toFixed(2));const payload={submittedAt:new Date().toISOString(),source:'LeoLan Digital B2B Modul-Konfigurator',stripePublishableKey:STRIPE_PUBLISHABLE_KEY,successUrl:SUCCESS_URL,cancelUrl:CANCEL_URL,checkoutMode:'subscription',priceIds:d.priceIds,lineItems:d.modules.map(m=>({priceId:m.priceId,quantity:1,type:'recurring',name:m.name,amount:m.price})),setupFee:{name:'Restaurant System Setup Fee',amount:SETUP_FEE,currency:'eur',type:'one_time'},customerEmail:d.customerEmail,companyName:d.companyName,phone:d.phone,address:d.address,zipCode:d.zipCode,city:d.city,website:d.website,vatId:d.vatId,botDescription:d.botDescription,logoUploadName:d.logoUploadName,logoUploadData:d.logoUploadData,whatsappNumber:d.whatsappNumber,menuUploadName:d.menuUploadName,menuUploadData:d.menuUploadData,foodPhotoNames:d.foodPhotoNames,foodPhotoDataList:d.foodPhotoDataList,selectedModules:d.selectedModules,modules:d.modules,monthlyNetTotal:monthlyNet,setupFeeAmount:SETUP_FEE,netTotal:subtotalNet,vatRate:reverseCharge?0:19,vatAmount,grossTotal,reverseCharge,formData:d};const response=await fetch(CHECKOUT_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!response.ok)throw new Error(`HTTP ${response.status}`);const contentType=response.headers.get('content-type')||'',result=contentType.includes('application/json')?await response.json():{url:(await response.text()).trim()},checkoutUrl=result.url||result.checkoutUrl||result.data?.url;if(!checkoutUrl||!/^https?:\/\//.test(checkoutUrl))throw new Error('Keine gültige Checkout-URL erhalten.');localStorage.removeItem(STORAGE_KEY);window.location.href=checkoutUrl}
-    function bindEvents(){document.querySelectorAll('input,textarea').forEach(field=>{field.addEventListener('input',()=>{const wrap=field.closest('.field');if(wrap)wrap.classList.remove('invalid');if(field.name==='selectedModules')updateSelectionUI();persistForm()});field.addEventListener('change',async()=>{if(field.name==='selectedModules')updateSelectionUI();if(field.id==='logoUpload'){await handleLogoUpload(field.files?.[0]);return}if(field.id==='menuUpload'){await handleMenuUpload(field.files?.[0]);return}if(field.id==='foodPhotos'){await handleFoodPhotos(field.files);return}persistForm()})});document.getElementById('zipCode').addEventListener('blur',lookupGermanCity);document.getElementById('zipCode').addEventListener('change',lookupGermanCity);prevBtn.addEventListener('click',()=>{if(currentStep>0){currentStep-=1;updateStep()}});nextBtn.addEventListener('click',()=>{if(!validateStep(currentStep))return;persistForm();if(currentStep<TOTAL_STEPS-1){currentStep+=1;updateStep()}});form.addEventListener('submit',async e=>{e.preventDefault();for(let i=0;i<TOTAL_STEPS;i+=1){if(!validateStep(i)){currentStep=i;updateStep();return}}const agb=document.getElementById('agbCheck')?.checked;const b2b=document.getElementById('b2bCheck')?.checked;const sub=document.getElementById('subscriptionCheck')?.checked;if(!agb||!b2b||!sub){document.getElementById('checkboxError').style.display='block';return;}document.getElementById('checkboxError').style.display='none';submitBtn.disabled=true;submitBtn.textContent='Checkout wird erstellt...';submitStatus.className='status';submitStatus.textContent='';try{await createCheckoutSession()}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.'}finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten'}})}
+    function bindEvents(){document.querySelectorAll('input,textarea').forEach(field=>{field.addEventListener('input',()=>{const wrap=field.closest('.field');if(wrap)wrap.classList.remove('invalid');if(field.name==='selectedModules')updateSelectionUI();persistForm()});field.addEventListener('change',async()=>{if(field.name==='selectedModules')updateSelectionUI();if(field.id==='logoUpload'){await handleLogoUpload(field.files?.[0]);return}if(field.id==='menuUpload'){await handleMenuUpload(field.files?.[0]);return}if(field.id==='foodPhotos'){await handleFoodPhotos(field.files);return}persistForm()})});document.getElementById('zipCode').addEventListener('blur',lookupGermanCity);document.getElementById('zipCode').addEventListener('change',lookupGermanCity);prevBtn.addEventListener('click',()=>{if(currentStep>0){currentStep-=1;updateStep()}});nextBtn.addEventListener('click',()=>{if(!validateStep(currentStep))return;persistForm();if(currentStep<TOTAL_STEPS-1){currentStep+=1;updateStep()}});form.addEventListener('submit',async e=>{e.preventDefault();for(let i=0;i<TOTAL_STEPS;i+=1){if(!validateStep(i)){currentStep=i;updateStep();return}}const agb=document.getElementById('agbCheck')?.checked;const b2b=document.getElementById('b2bCheck')?.checked;const sub=document.getElementById('subscriptionCheck')?.checked;if(!agb||!b2b||!sub){const errEl=document.getElementById('checkboxError');errEl.style.display='block';errEl.scrollIntoView({behavior:'smooth',block:'center'});errEl.textContent='Bitte erst alle Felder akzeptieren bevor Sie fortfahren.';return;}document.getElementById('checkboxError').style.display='none';submitBtn.disabled=true;submitBtn.textContent='Checkout wird erstellt...';submitStatus.className='status';submitStatus.textContent='';try{await createCheckoutSession()}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.'}finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten'}})}
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
     ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
     renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();updateStep();
 
-    // AGB Modal
-    window.openAgbModal = function() {
-      // Reset checkboxes
-      ['agbModalCheck','b2bModalCheck','subModalCheck'].forEach(id => { const el=document.getElementById(id); if(el) el.checked=false; });
-      document.getElementById('agbModalError').style.display='none';
-      checkAgbModal();
-      document.getElementById('agbModal').style.display='flex';
-    };
-    window.closeAgbModal = function() {
-      document.getElementById('agbModal').style.display='none';
-    };
-    window.checkAgbModal = function() {
-      const agb=document.getElementById('agbModalCheck')?.checked;
-      const b2b=document.getElementById('b2bModalCheck')?.checked;
-      const sub=document.getElementById('subModalCheck')?.checked;
-      const btn=document.getElementById('agbConfirmBtn');
-      if(btn){btn.style.opacity=(agb&&b2b&&sub)?'1':'0.5';btn.style.cursor=(agb&&b2b&&sub)?'pointer':'not-allowed';}
-      ['agbLabel','b2bLabel','subLabel'].forEach((id,i)=>{
-        const el=document.getElementById(id);
-        const checked=[agb,b2b,sub][i];
-        if(el) el.style.borderColor=checked?'#f5a623':'#dbe4f3';
-      });
-    };
-    window.confirmAgbAndPay = async function() {
-      const agb=document.getElementById('agbModalCheck')?.checked;
-      const b2b=document.getElementById('b2bModalCheck')?.checked;
-      const sub=document.getElementById('subModalCheck')?.checked;
-      if(!agb||!b2b||!sub){document.getElementById('agbModalError').style.display='block';return;}
-      document.getElementById('agbModal').style.display='none';
-      submitBtn.disabled=true;
-      submitBtn.textContent='Checkout wird erstellt...';
-      submitStatus.className='status';
-      submitStatus.textContent='';
-      try{await createCheckoutSession();}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden.';}
-      finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten';}
-    };
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
     function updateSubmitBtn() {
       const agb = document.getElementById('agbCheck')?.checked;
