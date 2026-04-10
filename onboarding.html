@@ -74,7 +74,34 @@
 </div>
 <div id="checkboxError" style="display:none;margin-top:10px;color:#d64545;font-size:13px;font-weight:bold">Bitte bestätigen Sie alle Pflichtfelder.</div>
 <div id="submitStatus" class="status" aria-live="polite"></div></div>
-        <div class="nav" id="formNav"><button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button><button type="button" class="btn btn-primary" id="nextBtn">Weiter</button><button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Jetzt kaufen &amp; System einrichten</button></div>
+        <div class="nav" id="formNav"><button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button><button type="button" class="btn btn-primary" id="nextBtn">Weiter</button><button type="button" class="btn btn-primary" id="submitBtn" style="display:none;" onclick="openAgbModal()">Jetzt kaufen &amp; System einrichten</button></div>
+
+    <!-- AGB MODAL - erscheint VOR Stripe -->
+    <div id="agbModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;align-items:center;justify-content:center;padding:20px">
+      <div style="background:#fff;border-radius:20px;padding:32px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto">
+        <h2 style="color:#1a2744;font-size:20px;font-weight:900;margin:0 0 8px">Bevor Sie kaufen</h2>
+        <p style="color:#666;font-size:13px;margin:0 0 20px">Bitte bestätigen Sie folgende Punkte um fortzufahren:</p>
+        <div style="display:grid;gap:14px">
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#f8faff;border:2px solid #dbe4f3;border-radius:12px;padding:14px;transition:border-color .2s" id="agbLabel">
+            <input type="checkbox" id="agbModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
+            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich habe die <a href="https://ki.leolan.net/agb.html" target="_blank" style="color:#f5a623;font-weight:bold">AGB</a> und die <a href="https://ki.leolan.net/datenschutz.html" target="_blank" style="color:#f5a623;font-weight:bold">Datenschutzerklärung</a> gelesen und akzeptiere diese. <span style="color:#d64545">*</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#f8faff;border:2px solid #dbe4f3;border-radius:12px;padding:14px;transition:border-color .2s" id="b2bLabel">
+            <input type="checkbox" id="b2bModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
+            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich bestätige, dass ich als <strong>Unternehmer (B2B)</strong> handle. <span style="color:#d64545">*</span></span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:12px;cursor:pointer;background:#fff9f0;border:2px solid rgba(245,166,35,.3);border-radius:12px;padding:14px;transition:border-color .2s" id="subLabel">
+            <input type="checkbox" id="subModalCheck" style="margin-top:3px;width:20px;height:20px;accent-color:#f5a623;flex-shrink:0" onchange="checkAgbModal()">
+            <span style="color:#1a2744;font-size:14px;line-height:1.6">Ich bin einverstanden, dass das <strong>Abonnement monatlich</strong> automatisch verlängert und abgerechnet wird. Kündigung jederzeit zum Monatsende per E-Mail möglich. <span style="color:#d64545">*</span></span>
+          </label>
+        </div>
+        <div id="agbModalError" style="display:none;margin-top:10px;color:#d64545;font-size:13px;font-weight:bold">Bitte alle Pflichtfelder bestätigen.</div>
+        <div style="display:flex;gap:10px;margin-top:20px">
+          <button type="button" onclick="closeAgbModal()" style="flex:1;background:#eef3fb;color:#1a2744;border:none;border-radius:12px;padding:13px;font-weight:700;cursor:pointer;font-family:inherit">Abbrechen</button>
+          <button type="button" id="agbConfirmBtn" onclick="confirmAgbAndPay()" style="flex:2;background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:13px;font-weight:900;cursor:pointer;font-family:inherit">Akzeptieren &amp; Bezahlen</button>
+        </div>
+      </div>
+    </div>
       </form>
       <div class="success-screen" id="successScreen"><div class="success-icon">✓</div><h2>Zahlung erfolgreich</h2><p>Danke für Ihren Auftrag. Ihre Auswahl wurde übermittelt und LeoLan Digital startet jetzt mit der Einrichtung Ihres Systems. Sie erhalten im Anschluss alle weiteren Informationen per E-Mail.</p><div class="footer-note">Falls Sie Rückfragen haben, antworten Sie einfach auf Ihre Bestätigungs-E-Mail.</div></div>
     </section>
@@ -110,6 +137,42 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
     renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();updateStep();
 
+    // AGB Modal
+    window.openAgbModal = function() {
+      // Reset checkboxes
+      ['agbModalCheck','b2bModalCheck','subModalCheck'].forEach(id => { const el=document.getElementById(id); if(el) el.checked=false; });
+      document.getElementById('agbModalError').style.display='none';
+      checkAgbModal();
+      document.getElementById('agbModal').style.display='flex';
+    };
+    window.closeAgbModal = function() {
+      document.getElementById('agbModal').style.display='none';
+    };
+    window.checkAgbModal = function() {
+      const agb=document.getElementById('agbModalCheck')?.checked;
+      const b2b=document.getElementById('b2bModalCheck')?.checked;
+      const sub=document.getElementById('subModalCheck')?.checked;
+      const btn=document.getElementById('agbConfirmBtn');
+      if(btn){btn.style.opacity=(agb&&b2b&&sub)?'1':'0.5';btn.style.cursor=(agb&&b2b&&sub)?'pointer':'not-allowed';}
+      ['agbLabel','b2bLabel','subLabel'].forEach((id,i)=>{
+        const el=document.getElementById(id);
+        const checked=[agb,b2b,sub][i];
+        if(el) el.style.borderColor=checked?'#f5a623':'#dbe4f3';
+      });
+    };
+    window.confirmAgbAndPay = async function() {
+      const agb=document.getElementById('agbModalCheck')?.checked;
+      const b2b=document.getElementById('b2bModalCheck')?.checked;
+      const sub=document.getElementById('subModalCheck')?.checked;
+      if(!agb||!b2b||!sub){document.getElementById('agbModalError').style.display='block';return;}
+      document.getElementById('agbModal').style.display='none';
+      submitBtn.disabled=true;
+      submitBtn.textContent='Checkout wird erstellt...';
+      submitStatus.className='status';
+      submitStatus.textContent='';
+      try{await createCheckoutSession();}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden.';}
+      finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten';}
+    };
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
     function updateSubmitBtn() {
       const agb = document.getElementById('agbCheck')?.checked;
