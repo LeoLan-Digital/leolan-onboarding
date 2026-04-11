@@ -62,7 +62,7 @@
       <form id="onboardingForm" novalidate>
         
         <!-- PAKET ÜBERSICHT STEP (nur bei ?paket=...) -->
-        <div class="step" id="paketStep" data-step="paket" style="display:none;">
+        <div id="paketStep" data-step="paket" style="display:none;">
           <span class="step-tag">Ihr Paket</span>
           <h2 id="paketStepName" style="color:var(--navy);"></h2>
           <p class="intro">Das erhalten Sie mit Ihrem Paket — alles inklusive, keine versteckten Kosten.</p>
@@ -144,6 +144,7 @@
     const PAKET_MODULES = {
       'starter': ['whatsapp-ki-bot'],
       'pro': ['whatsapp-ki-bot', 'instagram-posts', 'facebook-posts', 'bewertungsmanagement', 'google-business', 'dashboard'],
+      'enterprise': ['whatsapp-ki-bot', 'instagram-posts', 'facebook-posts', 'bewertungsmanagement', 'google-business', 'dashboard', 'email-monitor', 'reels-ki'],
     };
     const PAKET_LABELS = { 'starter': 'Starter-Paket', 'pro': 'Pro-Paket' };
       const PAKET_FEATURES = {
