@@ -155,7 +155,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
     ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
-    renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();updateStep();
+    renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();
 
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
     function updateSubmitBtn() {
