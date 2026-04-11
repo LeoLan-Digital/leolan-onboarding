@@ -53,25 +53,11 @@
   .info-close{background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;width:100%;}
 
   </style>
-<!-- v1775899670 -->
+<!-- v1775899767 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<6&&(localStorage.setItem("ll_version",6),o>0&&window.location.reload(!0))}();
   </script>
-  <script>
-  const MODULE_INFO = {"whatsapp-ki-bot": {"title": "WhatsApp KI-Bot", "why": "Unser Hauptprodukt — vollautomatisch, 24/7 erreichbar.", "details": ["✅ Beantwortet Gästefragen automatisch (Öffnungszeiten, Anfahrt, Menü)", "✅ Nimmt Reservierungen entgegen — auch nachts", "✅ Spricht die Sprache des Gastes (DE, EN, TR, ...)", "✅ Erinnert Gäste vor dem Termin automatisch", "✅ Stempelkarte & CRM inklusive", "💡 Inkl. 500 Nachrichten/Monat (Starter) oder 2.000 (Pro)"]}, "instagram-posts": {"title": "Instagram Auto-Posts", "why": "Teurer als Facebook weil Instagram Bilder + komplexere API erfordert.", "details": ["✅ Täglich 1 KI-generierter Post mit Bild", "✅ Text, Hashtags & Emojis automatisch", "✅ Angepasst an dein Restaurant & Angebote", "✅ Optimale Posting-Zeit wird automatisch gewählt", "💡 Instagram hat strengere API-Anforderungen als Facebook → höherer Preis"]}, "facebook-posts": {"title": "Facebook Auto-Posts", "why": "Günstiger als Instagram — einfachere API, nur Text & Links.", "details": ["✅ Täglich 1 KI-generierter Post", "✅ Text & Hashtags automatisch", "✅ Angepasst an dein Restaurant", "💡 Günstiger als Instagram weil Facebook-API einfacher ist (kein Bild-Upload nötig)"]}, "bewertungsmanagement": {"title": "Bewertungsmanagement", "why": "KI liest und beantwortet Google-Bewertungen automatisch.", "details": ["✅ Alle neuen Google-Bewertungen werden automatisch beantwortet", "✅ KI passt den Ton an (Lob → freundlich, Kritik → professionell)", "✅ Mehr Antworten = besseres Google-Ranking", "✅ Du sparst täglich 15-30 Minuten"]}, "google-business": {"title": "Google Business", "why": "Dein Google-Profil immer aktuell — ohne manuellen Aufwand.", "details": ["✅ Öffnungszeiten automatisch aktuell halten", "✅ Wöchentliche Google-Posts (Angebote, Neuigkeiten)", "✅ Fotos & Beschreibung automatisch optimieren", "💡 70% der Gäste googeln vor dem Besuch — ein gutes Profil = mehr Besucher"]}, "dashboard": {"title": "Dashboard", "why": "Alle Zahlen auf einen Blick — von überall auf dem Handy.", "details": ["✅ Reservierungen & Anfragen in Echtzeit", "✅ WhatsApp-Statistiken (Nachrichten, Themen)", "✅ Social Media Performance", "✅ Erreichbar von Handy, Tablet, PC"]}, "email-monitor": {"title": "E-Mail Monitor", "why": "Wichtige E-Mails werden automatisch erkannt und markiert.", "details": ["✅ KI erkennt wichtige E-Mails (Reservierungen, Beschwerden, Lieferanten)", "✅ Sofort-Benachrichtigung bei dringenden Nachrichten", "✅ Spam & Unwichtiges wird automatisch gefiltert", "💡 Nie wieder eine wichtige E-Mail verpassen"]}, "reels-ki": {"title": "Reels mit KI-Videos", "why": "Automatische Kurzvideo-Reels für maximale Reichweite.", "details": ["✅ KI erstellt automatisch Reels aus deinen Speisefotos", "✅ Musik, Text-Overlay & Hashtags automatisch", "✅ Reels haben 3x mehr Reichweite als normale Posts", "💡 Teuerster Preis weil Video-Erstellung komplexer ist"]}};
-  function showModuleInfo(key) {
-    const info = MODULE_INFO[key];
-    if (!info) return;
-    document.getElementById('popupTitle').textContent = info.title;
-    document.getElementById('popupWhy').textContent = info.why;
-    document.getElementById('popupList').innerHTML = info.details.map(d => '<li>' + d + '</li>').join('');
-    document.getElementById('infoPopupOverlay').classList.add('show');
-  }
-  function closePopup() {
-    document.getElementById('infoPopupOverlay').classList.remove('show');
-  }
-
-  </script>
+  
 
   <div class="shell">
     <section class="hero">
@@ -339,5 +325,28 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
   </div>
 </div>
 
+
+<div class="info-popup-overlay" id="infoPopupOverlay" onclick="if(event.target===this)closePopup()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#1a2744;border-radius:20px;padding:24px;max-width:400px;width:100%;border:1px solid rgba(245,166,35,.3);">
+    <h3 id="popupTitle" style="color:#f5a623;margin:0 0 6px;font-size:17px;"></h3>
+    <div id="popupWhy" style="color:rgba(255,255,255,.6);font-size:12px;margin-bottom:14px;font-style:italic;"></div>
+    <ul id="popupList" style="list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:7px;"></ul>
+    <button onclick="closePopup()" style="background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;width:100%;">Verstanden ✓</button>
+  </div>
+</div>
+<script>
+var MODULE_INFO={
+'whatsapp-ki-bot':{title:'WhatsApp KI-Bot',why:'Unser Hauptprodukt — vollautomatisch, 24/7 erreichbar.',details:['✅ Beantwortet Gästefragen automatisch (Öffnungszeiten, Anfahrt, Menü)','✅ Nimmt Reservierungen entgegen — auch nachts','✅ Spricht die Sprache des Gastes (DE, EN, TR...)','✅ Stempelkarte & CRM inklusive','💡 Inkl. 500 Nachrichten/Monat']},
+'instagram-posts':{title:'Instagram Auto-Posts',why:'Teurer als Facebook: Instagram erfordert Bild-Upload + komplexere API.',details:['✅ Täglich 1 KI-Post mit Bild','✅ Text, Hashtags & Emojis automatisch','✅ Angepasst an dein Restaurant','💡 Instagram-API ist strenger → höherer Preis']},
+'facebook-posts':{title:'Facebook Auto-Posts',why:'Günstiger als Instagram — einfachere API, nur Text.',details:['✅ Täglich 1 KI-Post','✅ Text & Hashtags automatisch','💡 Günstiger weil keine Bild-Upload-API nötig']},
+'bewertungsmanagement':{title:'Bewertungsmanagement',why:'KI antwortet automatisch auf Google-Bewertungen.',details:['✅ Alle Bewertungen werden automatisch beantwortet','✅ Ton passt sich an: Lob freundlich, Kritik professionell','✅ Mehr Antworten = besseres Google-Ranking']},
+'google-business':{title:'Google Business',why:'Dein Google-Profil immer aktuell.',details:['✅ Öffnungszeiten automatisch aktuell','✅ Wöchentliche Google-Posts','💡 70% der Gäste googeln vor dem Besuch']},
+'dashboard':{title:'Dashboard',why:'Alle Zahlen auf einen Blick.',details:['✅ Reservierungen & Anfragen in Echtzeit','✅ WhatsApp-Statistiken','✅ Von Handy, Tablet, PC erreichbar']},
+'email-monitor':{title:'E-Mail Monitor',why:'Wichtige E-Mails automatisch erkennen.',details:['✅ KI erkennt wichtige E-Mails','✅ Sofort-Benachrichtigung bei Dringendem','💡 Nie wieder eine wichtige E-Mail verpassen']},
+'reels-ki':{title:'Reels mit KI-Videos',why:'Automatische Kurzvideo-Reels für maximale Reichweite.',details:['✅ KI erstellt Reels aus Speisefotos','✅ Musik & Text-Overlay automatisch','✅ Reels haben 3x mehr Reichweite als Posts']}
+};
+function showModuleInfo(key){var i=MODULE_INFO[key];if(!i)return;document.getElementById('popupTitle').textContent=i.title;document.getElementById('popupWhy').textContent=i.why;document.getElementById('popupList').innerHTML=i.details.map(function(d){return'<li style="color:rgba(255,255,255,.85);font-size:13px;">'+d+'</li>';}).join('');var o=document.getElementById('infoPopupOverlay');o.style.display='flex';}
+function closePopup(){document.getElementById('infoPopupOverlay').style.display='none';}
+</script>
 </body>
 </html>
