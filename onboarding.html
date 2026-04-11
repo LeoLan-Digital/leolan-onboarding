@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775902047 -->
+<!-- v1775903005 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
@@ -356,9 +356,10 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
   var _mi = (typeof MODULE_INFO !== 'undefined') ? MODULE_INFO : {};
   var info = _mi[key] || null;
   if (!info) { openModuleChat(key); return; }
-  document.getElementById('infoPopupTitle').textContent = (info.icon||'') + ' ' + info.title;
+  document.getElementById('infoPopupIcon').textContent = info.icon || '';
+  document.getElementById('infoPopupTitle').textContent = info.title;
   document.getElementById('infoPopupWhy').textContent = info.why || '';
-  document.getElementById('infoPopupList').innerHTML = (info.details||[]).map(function(d){return'<li style="color:rgba(255,255,255,.85);font-size:13px;">'+d+'</li>';}).join('');
+  document.getElementById('infoPopupList').innerHTML = (info.details||[]).map(function(d){return'<li style="display:flex;gap:10px;align-items:flex-start;color:rgba(255,255,255,.85);font-size:13px;line-height:1.5;">'+d+'</li>';}).join('');
   document.getElementById('infoPopupOverlay').style.display = 'flex';
 }
   function selectModuleFromChat(){const key=moduleChatState.moduleKey;if(!key)return;const cb=document.querySelector(`input[name="selectedModules"][value="${key}"]`);if(cb){cb.checked=true;updateSelectionUI();persistForm();const card=document.querySelector(`[data-module-card="${key}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});addChatMessage('assistant','Perfekt — ich habe das Modul für Sie markiert. Sie können jetzt einfach mit dem Onboarding weitermachen.');toggleModuleSelect(false)}}
@@ -381,14 +382,24 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
 
   </script>
 
-<div id="infoPopupOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9998;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#1a2744;border-radius:20px;padding:24px;max-width:400px;width:100%;border:1px solid rgba(245,166,35,.3);max-height:80vh;overflow-y:auto;">
-    <h3 id="infoPopupTitle" style="color:#f5a623;margin:0 0 6px;font-size:17px;"></h3>
-    <div id="infoPopupWhy" style="color:rgba(255,255,255,.6);font-size:12px;margin-bottom:14px;font-style:italic;"></div>
-    <ul id="infoPopupList" style="list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:8px;"></ul>
-    <div style="display:flex;gap:10px;">
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:12px 16px;font-weight:800;font-size:14px;cursor:pointer;flex:1;">Verstanden ✓</button>
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none';openModuleChat(window._currentModuleKey);" style="background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:12px 14px;font-weight:700;font-size:13px;cursor:pointer;flex:1;">💬 Mehr Fragen?</button>
+<div id="infoPopupOverlay" style="display:none;position:fixed;inset:0;background:rgba(10,18,40,0.85);z-index:9998;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(4px);" onclick="if(event.target===this)document.getElementById('infoPopupOverlay').style.display='none'">
+  <div style="background:linear-gradient(145deg,#1a2744,#0d1526);border-radius:24px;padding:0;max-width:420px;width:100%;border:1px solid rgba(245,166,35,.25);box-shadow:0 24px 60px rgba(0,0,0,.5);overflow:hidden;max-height:85vh;display:flex;flex-direction:column;">
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,rgba(245,166,35,.15),rgba(245,166,35,.05));padding:20px 24px 16px;border-bottom:1px solid rgba(255,255,255,.06);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+        <div id="infoPopupIcon" style="font-size:28px;line-height:1;"></div>
+        <h3 id="infoPopupTitle" style="color:#fff;margin:0;font-size:18px;font-weight:800;"></h3>
+      </div>
+      <div id="infoPopupWhy" style="color:#f5a623;font-size:12px;font-weight:600;opacity:.85;"></div>
+    </div>
+    <!-- Features -->
+    <div style="padding:18px 24px;flex:1;overflow-y:auto;">
+      <ul id="infoPopupList" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;"></ul>
+    </div>
+    <!-- Buttons -->
+    <div style="padding:16px 24px 20px;display:flex;gap:10px;border-top:1px solid rgba(255,255,255,.06);">
+      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 16px;font-weight:700;font-size:14px;cursor:pointer;flex:1;transition:all .2s;">Verstanden ✓</button>
+      <button onclick="document.getElementById('infoPopupOverlay').style.display='none';openModuleChat(window._currentModuleKey);" style="background:linear-gradient(135deg,#f5a623,#e09015);color:#1a2744;border:none;border-radius:14px;padding:12px 16px;font-weight:800;font-size:14px;cursor:pointer;flex:1.2;box-shadow:0 4px 16px rgba(245,166,35,.3);">💬 Noch Fragen?</button>
     </div>
   </div>
 </div>
