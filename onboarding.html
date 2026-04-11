@@ -56,6 +56,36 @@
         <div class="progress-bar" aria-hidden="true"><div class="progress-fill" id="progressFill"></div></div>
       </div>
       <form id="onboardingForm" novalidate>
+        
+        <!-- PAKET ÜBERSICHT STEP (nur bei ?paket=...) -->
+        <div class="step" id="paketStep" data-step="paket" style="display:none;">
+          <span class="step-tag">Ihr Paket</span>
+          <h2 id="paketStepName" style="color:var(--navy);"></h2>
+          <p class="intro">Das erhalten Sie mit Ihrem Paket — alles inklusive, keine versteckten Kosten.</p>
+
+          <div style="background:linear-gradient(135deg,#1a2744,#243060);border-radius:20px;padding:28px;margin-bottom:24px;">
+            <div id="paketModuleList" style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;"></div>
+            <div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+              <div>
+                <div style="color:rgba(255,255,255,0.6);font-size:12px;margin-bottom:2px;">Monatliche Rate</div>
+                <div id="paketStepPreis" style="color:#f5a623;font-size:24px;font-weight:900;"></div>
+              </div>
+              <div>
+                <div style="color:rgba(255,255,255,0.6);font-size:12px;margin-bottom:2px;">Setup-Gebühr</div>
+                <div style="color:#fff;font-size:18px;font-weight:700;">349€ einmalig</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:14px;padding:16px 20px;display:flex;gap:12px;align-items:flex-start;">
+            <span style="font-size:20px;">✅</span>
+            <div>
+              <strong style="color:#166534;">Einrichtung innerhalb 48 Stunden</strong>
+              <p style="margin:4px 0 0;color:#166534;font-size:13px;">Nach Ihrer Bestellung richtet unser Team alles für Sie ein. Sie erhalten alle Zugangsdaten per E-Mail.</p>
+            </div>
+          </div>
+        </div>
+
         <div class="step active" data-step="0"><span class="step-tag">Schritt 1</span><h2>Wählen Sie Ihre Module</h2><p class="intro">Aktivieren Sie mindestens ein Modul. Der monatliche Netto-Gesamtpreis aktualisiert sich sofort.</p><div class="module-grid" id="moduleGrid"></div><div class="selection-error" id="selectionError">Bitte wählen Sie mindestens 1 Modul aus.</div><div class="sticky-total"><div class="sticky-total-head"><div><strong>Aktuelle Auswahl</strong><span id="selectionCount">0 Module ausgewählt</span></div><div class="sticky-total-price" id="liveTotal">0€</div></div><div class="selection-hint">Alle Preise verstehen sich netto pro Monat. In der Zusammenfassung sehen Sie zusätzlich die einmalige Setup-Gebühr sowie die passende MwSt.-Logik.</div></div></div>
         
       <!-- Paket-Banner (nur bei ?paket=...) -->
@@ -138,7 +168,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function updateStep(){steps.forEach((s,i)=>s.classList.toggle('active',i===currentStep));document.querySelectorAll('[data-progress-step]').forEach(s=>{const i=Number(s.dataset.progressStep);s.classList.toggle('active',i===currentStep);s.classList.toggle('done',i<currentStep)});progressLabel.textContent=`Schritt ${currentStep+1} von ${TOTAL_STEPS}`;progressMeta.textContent=STEP_TITLES[currentStep];progressFill.style.width=`${((currentStep+1)/TOTAL_STEPS)*100}%`;prevBtn.style.visibility=currentStep===0?'hidden':'visible';nextBtn.style.display=currentStep===TOTAL_STEPS-1?'none':'inline-flex';submitBtn.style.display=currentStep===TOTAL_STEPS-1?'inline-flex':'none';if(currentStep===TOTAL_STEPS-1)updateSummary();progressContainer.scrollIntoView({behavior:'smooth',block:'start'})}
     function showSuccessState(){form.style.display='none';formNav.style.display='none';progressContainer.style.display='none';successScreen.classList.add('show')}
     async function createCheckoutSession(){const d=getFormData(),monthlyNet=getMonthlyNetTotal(),subtotalNet=monthlyNet+SETUP_FEE,reverseCharge=hasVatId(d.vatId),vatAmount=reverseCharge?0:Number((subtotalNet*VAT_RATE).toFixed(2)),grossTotal=Number((subtotalNet+vatAmount).toFixed(2));const payload={submittedAt:new Date().toISOString(),source:'LeoLan Digital B2B Modul-Konfigurator',stripePublishableKey:STRIPE_PUBLISHABLE_KEY,successUrl:SUCCESS_URL,cancelUrl:CANCEL_URL,checkoutMode:'subscription',priceIds:d.priceIds,lineItems:d.modules.map(m=>({priceId:m.priceId,quantity:1,type:'recurring',name:m.name,amount:m.price})),setupFee:{name:'Restaurant System Setup Fee',amount:SETUP_FEE,currency:'eur',type:'one_time'},customerEmail:d.customerEmail,companyName:d.companyName,phone:d.phone,address:d.address,zipCode:d.zipCode,city:d.city,website:d.website,vatId:d.vatId,botDescription:d.botDescription,logoUploadName:d.logoUploadName,logoUploadData:d.logoUploadData,whatsappNumber:d.whatsappNumber,menuUploadName:d.menuUploadName,menuUploadData:d.menuUploadData,foodPhotoNames:d.foodPhotoNames,foodPhotoDataList:d.foodPhotoDataList,selectedModules:d.selectedModules,modules:d.modules,monthlyNetTotal:monthlyNet,setupFeeAmount:SETUP_FEE,netTotal:subtotalNet,vatRate:reverseCharge?0:19,vatAmount,grossTotal,reverseCharge,formData:d};const response=await fetch(CHECKOUT_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!response.ok)throw new Error(`HTTP ${response.status}`);const contentType=response.headers.get('content-type')||'',result=contentType.includes('application/json')?await response.json():{url:(await response.text()).trim()},checkoutUrl=result.url||result.checkoutUrl||result.data?.url;if(!checkoutUrl||!/^https?:\/\//.test(checkoutUrl))throw new Error('Keine gültige Checkout-URL erhalten.');localStorage.removeItem(STORAGE_KEY);window.location.href=checkoutUrl}
-    function bindEvents(){document.querySelectorAll('input,textarea').forEach(field=>{field.addEventListener('input',()=>{const wrap=field.closest('.field');if(wrap)wrap.classList.remove('invalid');if(field.name==='selectedModules')updateSelectionUI();persistForm()});field.addEventListener('change',async()=>{if(field.name==='selectedModules')updateSelectionUI();if(field.id==='logoUpload'){await handleLogoUpload(field.files?.[0]);return}if(field.id==='menuUpload'){await handleMenuUpload(field.files?.[0]);return}if(field.id==='foodPhotos'){await handleFoodPhotos(field.files);return}persistForm()})});document.getElementById('zipCode').addEventListener('blur',lookupGermanCity);document.getElementById('zipCode').addEventListener('change',lookupGermanCity);prevBtn.addEventListener('click',()=>{if(currentStep>0){currentStep-=1;updateStep()}});nextBtn.addEventListener('click',()=>{if(!validateStep(currentStep))return;persistForm();if(currentStep<TOTAL_STEPS-1){currentStep+=1;updateStep()}});form.addEventListener('submit',async e=>{e.preventDefault();for(let i=IS_PAKET?1:0;i<TOTAL_STEPS;i+=1){if(!validateStep(i)){currentStep=i;updateStep();return}}const agb=document.getElementById('agbCheck')?.checked;const b2b=document.getElementById('b2bCheck')?.checked;const sub=document.getElementById('subscriptionCheck')?.checked;if(!agb||!b2b||!sub){const errEl=document.getElementById('checkboxError');errEl.style.display='block';errEl.scrollIntoView({behavior:'smooth',block:'center'});errEl.textContent='Bitte erst alle Felder akzeptieren bevor Sie fortfahren.';return;}document.getElementById('checkboxError').style.display='none';submitBtn.disabled=true;submitBtn.textContent='Checkout wird erstellt...';submitStatus.className='status';submitStatus.textContent='';try{await createCheckoutSession()}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.'}finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten'}})}
+    function bindEvents(){document.querySelectorAll('input,textarea').forEach(field=>{field.addEventListener('input',()=>{const wrap=field.closest('.field');if(wrap)wrap.classList.remove('invalid');if(field.name==='selectedModules')updateSelectionUI();persistForm()});field.addEventListener('change',async()=>{if(field.name==='selectedModules')updateSelectionUI();if(field.id==='logoUpload'){await handleLogoUpload(field.files?.[0]);return}if(field.id==='menuUpload'){await handleMenuUpload(field.files?.[0]);return}if(field.id==='foodPhotos'){await handleFoodPhotos(field.files);return}persistForm()})});document.getElementById('zipCode').addEventListener('blur',lookupGermanCity);document.getElementById('zipCode').addEventListener('change',lookupGermanCity);prevBtn.addEventListener('click',()=>{if(currentStep>0){currentStep-=1;updateStep()}});nextBtn.addEventListener('click',()=>{if(window._paketMode&&!window._paketDone){window._paketDone=true;const ps=document.getElementById('paketStep');if(ps)ps.classList.remove('active');currentStep=1;updateStep();return;}if(!validateStep(currentStep))return;persistForm();if(currentStep<TOTAL_STEPS-1){currentStep+=1;updateStep()}});form.addEventListener('submit',async e=>{e.preventDefault();for(let i=IS_PAKET?1:0;i<TOTAL_STEPS;i+=1){if(!validateStep(i)){currentStep=i;updateStep();return}}const agb=document.getElementById('agbCheck')?.checked;const b2b=document.getElementById('b2bCheck')?.checked;const sub=document.getElementById('subscriptionCheck')?.checked;if(!agb||!b2b||!sub){const errEl=document.getElementById('checkboxError');errEl.style.display='block';errEl.scrollIntoView({behavior:'smooth',block:'center'});errEl.textContent='Bitte erst alle Felder akzeptieren bevor Sie fortfahren.';return;}document.getElementById('checkboxError').style.display='none';submitBtn.disabled=true;submitBtn.textContent='Checkout wird erstellt...';submitStatus.className='status';submitStatus.textContent='';try{await createCheckoutSession()}catch(error){console.error(error);submitStatus.className='status error';submitStatus.textContent='Checkout konnte nicht erstellt werden. Bitte versuchen Sie es in wenigen Minuten erneut.'}finally{submitBtn.disabled=false;submitBtn.textContent='Jetzt kaufen & System einrichten'}})}
     
     // Paket vorauswählen und Step 0 überspringen
     function initPaket() {
@@ -150,6 +180,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
         if (cb) cb.checked = true;
       });
       updateSelectionUI();
+
       // Step 0 (Modulauswahl) ausblenden
       const step0 = document.querySelector('[data-step="0"]');
       if (step0) step0.style.display = 'none';
@@ -158,10 +189,53 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
       // Paket-Label anzeigen
       const label = document.getElementById('progressLabel');
       if (label) label.textContent = PAKET_LABELS[PAKET] + ' — Schritt 1 von 4';
-      // Direkt zu Step 1 springen
-      currentStep = 1;
-      updateStep();
+
+      // Paket-Step befüllen und anzeigen
+      const paketStep = document.getElementById('paketStep');
+      if (paketStep) {
+        paketStep.style.display = 'block';
+
+        // Name
+        document.getElementById('paketStepName').textContent = PAKET_LABELS[PAKET];
+
+        // Preis
+        document.getElementById('paketStepPreis').textContent =
+          PAKET === 'starter' ? '199€ / Monat' :
+          PAKET === 'pro' ? '349€ / Monat' : 'Individuell';
+
+        // Module Liste
+        const moduleList = document.getElementById('paketModuleList');
+        if (moduleList) {
+          moduleList.innerHTML = modules.map(key => {
+            const m = MODULES[key];
+            if (!m) return '';
+            return `<div style="display:flex;gap:14px;align-items:center;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;">
+              <div style="font-size:22px;">${m.icon}</div>
+              <div>
+                <div style="color:#fff;font-weight:700;font-size:14px;">${m.name}</div>
+                <div style="color:rgba(255,255,255,0.6);font-size:12px;">${m.desc}</div>
+              </div>
+              <div style="margin-left:auto;color:#f5a623;font-weight:800;font-size:14px;white-space:nowrap;">${m.price}€/Mo</div>
+            </div>`;
+          }).join('');
+        }
+      }
+
+      // Direkt zu Paket-Step (currentStep bleibt 0 aber wir zeigen paketStep)
+      // Wir nutzen einen eigenen paket-currentStep
+      window._paketMode = true;
+      window._paketDone = false;
+
+      // Paket-Step aktiv machen, Step 1 verstecken
+      steps.forEach(s => s.classList.remove('active'));
+      paketStep.classList.add('active');
+
+      // Weiter-Button zeigt zu Firmendaten
+      prevBtn.style.visibility = 'hidden';
+      nextBtn.style.display = 'inline-flex';
+      submitBtn.style.display = 'none';
     }
+
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
     ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
