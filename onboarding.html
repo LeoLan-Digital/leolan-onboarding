@@ -27,35 +27,39 @@
     .nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:26px}.btn{border:0;border-radius:15px;padding:14px 18px;min-width:140px;font:inherit;font-weight:800;cursor:pointer;transition:transform 180ms ease,box-shadow 180ms ease,background 180ms ease,opacity 180ms ease}.btn:hover{transform:translateY(-1px)}.btn:disabled{opacity:.55;cursor:not-allowed;transform:none}.btn-secondary{background:#eef3fb;color:var(--navy)}.btn-primary{color:#fff;background:linear-gradient(135deg,var(--orange) 0%,var(--orange-2) 100%);box-shadow:0 16px 30px rgba(245,166,35,.24)}.btn-ghost{background:#fff;color:var(--navy);border:1px solid var(--border)}.status{display:none;margin-top:16px;padding:14px 16px;border-radius:16px;font-weight:700}.status.error{display:block;background:rgba(214,69,69,.1);color:#a32f2f;border:1px solid rgba(214,69,69,.16)}.success-screen{display:none;padding:44px 20px;text-align:center}.success-screen.show{display:block}.success-icon{width:88px;height:88px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;font-size:2.4rem;background:rgba(31,157,104,.12);color:var(--success)}.success-screen p{max-width:660px;margin:0 auto;color:var(--muted);line-height:1.75}.footer-note{margin-top:18px;color:var(--muted);font-size:.86rem}.hidden{display:none!important}
     @media (min-width:720px){.shell{width:min(1180px,calc(100% - 48px));padding-top:28px}.hero{padding:34px}form{padding:26px}.hero-stats{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.summary-grid{grid-template-columns:1.1fr .9fr}.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.prep-actions .btn{flex:1}} @media (min-width:980px){.module-grid{grid-template-columns:repeat(3,minmax(0,1fr))}} @media (max-width:820px){.progress-steps{grid-template-columns:repeat(2,minmax(0,1fr))}} @media (max-width:640px){.shell{width:min(100% - 20px,1180px)}.progress-step{padding:10px}.progress-step small{font-size:.76rem}.module-card,.prep-item{padding:16px}.module-top,.summary-item,.module-summary-item,.price-row,.sticky-total-head,.prep-actions{flex-direction:column;align-items:flex-start}.summary-item span,.module-summary-price{text-align:left}.nav .btn,.prep-actions .btn{width:100%}}
   
-  .module-info-btn { position:absolute; top:10px; right:10px; width:22px; height:22px; border-radius:50%; background:rgba(245,166,35,0.2); border:1px solid rgba(245,166,35,0.4); color:#f5a623; font-size:12px; font-weight:900; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.2s; z-index:2; }
-  .module-info-btn:hover { background:rgba(245,166,35,0.4); }
-  .module-card { position:relative; }
-  .info-popup-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center; padding:20px; }
-  .info-popup-overlay.show { display:flex; }
-  .info-popup { background:#1a2744; border-radius:20px; padding:28px; max-width:420px; width:100%; border:1px solid rgba(245,166,35,0.3); }
-  .info-popup h3 { color:#f5a623; margin:0 0 6px; font-size:18px; }
-  .info-popup .why { color:rgba(255,255,255,0.6); font-size:13px; margin-bottom:16px; font-style:italic; }
-  .info-popup ul { list-style:none; padding:0; margin:0 0 20px; display:flex; flex-direction:column; gap:8px; }
-  .info-popup ul li { color:rgba(255,255,255,0.85); font-size:14px; line-height:1.5; }
-  .info-popup-close { background:#f5a623; color:#1a2744; border:none; border-radius:12px; padding:12px 24px; font-weight:800; font-size:15px; cursor:pointer; width:100%; }
 
-  
-  .module-card{position:relative;}
-  .mod-info{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(245,166,35,.2);border:1px solid rgba(245,166,35,.4);color:#f5a623;font-size:11px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:2;line-height:1;}
-  .mod-info:hover{background:rgba(245,166,35,.4);}
-  .info-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center;padding:20px;}
-  .info-overlay.show{display:flex;}
-  .info-box{background:#1a2744;border-radius:20px;padding:24px;max-width:400px;width:100%;border:1px solid rgba(245,166,35,.3);}
-  .info-box h3{color:#f5a623;margin:0 0 6px;font-size:17px;}
-  .info-box .why{color:rgba(255,255,255,.6);font-size:12px;margin-bottom:14px;font-style:italic;}
-  .info-box ul{list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:7px;}
-  .info-box ul li{color:rgba(255,255,255,.85);font-size:13px;line-height:1.5;}
-  .info-close{background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;width:100%;}
-
+  .mod-info{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(245,166,35,.35);background:linear-gradient(135deg,rgba(245,166,35,.18),rgba(245,166,35,.3));color:var(--navy);font-size:15px;font-weight:900;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:3;box-shadow:0 10px 24px rgba(26,39,68,.12);transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+  .mod-info:hover{transform:translateY(-1px) scale(1.04);background:linear-gradient(135deg,var(--orange),var(--orange-2));box-shadow:0 14px 28px rgba(245,166,35,.28)}
+  .module-card{position:relative}
+  .chat-overlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(14,22,38,.62);backdrop-filter:blur(7px);padding:18px;align-items:center;justify-content:center}
+  .chat-overlay.show{display:flex}
+  .chat-modal{width:min(760px,100%);height:min(82vh,760px);background:linear-gradient(180deg,#fff 0%,#f7faff 100%);border:1px solid rgba(255,255,255,.72);border-radius:28px;box-shadow:0 32px 90px rgba(8,15,32,.32);overflow:hidden;display:flex;flex-direction:column}
+  .chat-header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 20px;background:linear-gradient(135deg,var(--navy) 0%,var(--navy-2) 100%);color:#fff}
+  .chat-header-main{display:flex;align-items:center;gap:14px;min-width:0}
+  .chat-module-icon{width:52px;height:52px;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(245,166,35,.28));display:grid;place-items:center;font-size:1.55rem;flex-shrink:0}
+  .chat-header h3{margin:0 0 4px;font-size:1.1rem}
+  .chat-header p{margin:0;color:rgba(255,255,255,.72);font-size:.92rem}
+  .chat-close{border:0;background:rgba(255,255,255,.12);color:#fff;width:42px;height:42px;border-radius:14px;font-size:22px;cursor:pointer;flex-shrink:0}
+  .chat-close:hover{background:rgba(255,255,255,.2)}
+  .chat-body{flex:1;overflow:auto;padding:20px;background:linear-gradient(180deg,#f8fbff 0%,#eef3fb 100%);display:flex;flex-direction:column;gap:14px}
+  .chat-bubble{max-width:min(84%,560px);padding:14px 16px;border-radius:20px;line-height:1.6;font-size:.95rem;white-space:pre-wrap;word-break:break-word;box-shadow:0 10px 24px rgba(26,39,68,.08)}
+  .chat-bubble.assistant{align-self:flex-start;background:#eef2f8;color:var(--text);border-bottom-left-radius:8px}
+  .chat-bubble.user{align-self:flex-end;background:linear-gradient(135deg,#3b82f6,#1f5eff);color:#fff;border-bottom-right-radius:8px}
+  .chat-bubble-status{display:inline-flex;align-items:center;gap:8px;color:var(--muted);font-size:.88rem;padding:0 4px}
+  .chat-actions{padding:0 20px 14px;display:flex;justify-content:flex-start}
+  .chat-select-btn{display:none;border:0;border-radius:14px;padding:12px 16px;background:linear-gradient(135deg,var(--orange),var(--orange-2));color:var(--navy);font-weight:900;cursor:pointer;box-shadow:0 14px 30px rgba(245,166,35,.26)}
+  .chat-select-btn.show{display:inline-flex;align-items:center;gap:8px}
+  .chat-input-wrap{padding:16px 20px 20px;background:#fff;border-top:1px solid var(--border)}
+  .chat-input-row{display:flex;gap:12px;align-items:flex-end}
+  .chat-input{min-height:54px;max-height:140px;border-radius:18px}
+  .chat-send{min-width:120px;height:54px;border:0;border-radius:18px;background:linear-gradient(135deg,var(--orange),var(--orange-2));color:var(--navy);font-weight:900;cursor:pointer;box-shadow:0 16px 28px rgba(245,166,35,.24)}
+  .chat-send:disabled{opacity:.6;cursor:not-allowed;box-shadow:none}
+  .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
+  @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
 <!-- v1775900072 -->
 </head>
-<body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<6&&(localStorage.setItem("ll_version",6),o>0&&window.location.reload(!0))}();
+<body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<7&&(localStorage.setItem("ll_version",7),o>0&&window.location.reload(!0))}();
   </script>
   
 
@@ -150,12 +154,37 @@
 <div id="submitStatus" class="status" aria-live="polite"></div></div>
         <div class="nav" id="formNav"><button type="button" class="btn btn-secondary" id="prevBtn">Zurück</button><button type="button" class="btn btn-primary" id="nextBtn">Weiter</button><button type="submit" class="btn btn-primary" id="submitBtn" style="display:none;">Jetzt kaufen &amp; System einrichten</button></div>
 
-      </form>>
+      </form>
       <div class="success-screen" id="successScreen"><div class="success-icon">✓</div><h2>Zahlung erfolgreich</h2><p>Danke für Ihren Auftrag. Ihre Auswahl wurde übermittelt und LeoLan Digital startet jetzt mit der Einrichtung Ihres Systems. Sie erhalten im Anschluss alle weiteren Informationen per E-Mail.</p><div class="footer-note">Falls Sie Rückfragen haben, antworten Sie einfach auf Ihre Bestätigungs-E-Mail.</div></div>
     </section>
   </div>
-  <script>
-    const STORAGE_KEY='leolan-module-configurator-v4',CHECKOUT_WEBHOOK_URL='https://n8n.leolan.net/webhook/stripe-checkout',STRIPE_PUBLISHABLE_KEY='pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX',SUCCESS_URL=`${window.location.origin}${window.location.pathname}?success=true`,CANCEL_URL=`${window.location.origin}${window.location.pathname}`,VAT_RATE=.19,SETUP_FEE=349,TOTAL_STEPS=5;
+<div class="chat-overlay" id="moduleChatOverlay" onclick="if(event.target===this)closeModuleChat()">
+  <div class="chat-modal" role="dialog" aria-modal="true" aria-labelledby="moduleChatTitle">
+    <div class="chat-header">
+      <div class="chat-header-main">
+        <div class="chat-module-icon" id="moduleChatIcon">💬</div>
+        <div>
+          <h3 id="moduleChatTitle">Modul-Chat</h3>
+          <p id="moduleChatSubtitle">Stellen Sie Ihre Fragen direkt zum Modul.</p>
+        </div>
+      </div>
+      <button type="button" class="chat-close" onclick="closeModuleChat()" aria-label="Chat schließen">×</button>
+    </div>
+    <div class="chat-body" id="moduleChatMessages"></div>
+    <div class="chat-actions">
+      <button type="button" class="chat-select-btn" id="moduleSelectBtn" onclick="selectModuleFromChat()">Modul auswählen ✓</button>
+    </div>
+    <div class="chat-input-wrap">
+      <div class="chat-input-row">
+        <textarea id="moduleChatInput" class="chat-input" placeholder="Ihre Frage zu diesem Modul..." rows="2"></textarea>
+        <button type="button" id="moduleChatSend" class="chat-send" onclick="sendModuleChatMessage()">Senden</button>
+      </div>
+      <div class="chat-footnote">Antworten kommen live über den LeoLan KI-Assistenten.</div>
+    </div>
+  </div>
+</div>
+
+<script>    const STORAGE_KEY='leolan-module-configurator-v4',CHECKOUT_WEBHOOK_URL='https://n8n.leolan.net/webhook/stripe-checkout',STRIPE_PUBLISHABLE_KEY='pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX',SUCCESS_URL=`${window.location.origin}${window.location.pathname}?success=true`,CANCEL_URL=`${window.location.origin}${window.location.pathname}`,VAT_RATE=.19,SETUP_FEE=349,TOTAL_STEPS=5;
 
     // Paket-Logik: URL-Parameter ?paket=starter|pro
     const urlParams = new URLSearchParams(window.location.search);
@@ -301,52 +330,46 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     });
     updateSubmitBtn();
   
-  const MODULE_INFO = {"whatsapp-ki-bot": {"title": "WhatsApp KI-Bot", "why": "Unser Hauptprodukt — vollautomatisch, 24/7 erreichbar.", "details": ["✅ Beantwortet Gästefragen automatisch (Öffnungszeiten, Anfahrt, Menü)", "✅ Nimmt Reservierungen entgegen — auch nachts", "✅ Spricht die Sprache des Gastes (DE, EN, TR, ...)", "✅ Erinnert Gäste vor dem Termin automatisch", "✅ Stempelkarte & CRM inklusive", "💡 Inkl. 500 Nachrichten/Monat (Starter) oder 2.000 (Pro)"]}, "instagram-posts": {"title": "Instagram Auto-Posts", "why": "Teurer als Facebook weil Instagram Bilder + komplexere API erfordert.", "details": ["✅ Täglich 1 KI-generierter Post mit Bild", "✅ Text, Hashtags & Emojis automatisch", "✅ Angepasst an dein Restaurant & Angebote", "✅ Optimale Posting-Zeit wird automatisch gewählt", "💡 Instagram hat strengere API-Anforderungen als Facebook → höherer Preis"]}, "facebook-posts": {"title": "Facebook Auto-Posts", "why": "Günstiger als Instagram — einfachere API, nur Text & Links.", "details": ["✅ Täglich 1 KI-generierter Post", "✅ Text & Hashtags automatisch", "✅ Angepasst an dein Restaurant", "💡 Günstiger als Instagram weil Facebook-API einfacher ist (kein Bild-Upload nötig)"]}, "bewertungsmanagement": {"title": "Bewertungsmanagement", "why": "KI liest und beantwortet Google-Bewertungen automatisch.", "details": ["✅ Alle neuen Google-Bewertungen werden automatisch beantwortet", "✅ KI passt den Ton an (Lob → freundlich, Kritik → professionell)", "✅ Mehr Antworten = besseres Google-Ranking", "✅ Du sparst täglich 15-30 Minuten"]}, "google-business": {"title": "Google Business", "why": "Dein Google-Profil immer aktuell — ohne manuellen Aufwand.", "details": ["✅ Öffnungszeiten automatisch aktuell halten", "✅ Wöchentliche Google-Posts (Angebote, Neuigkeiten)", "✅ Fotos & Beschreibung automatisch optimieren", "💡 70% der Gäste googeln vor dem Besuch — ein gutes Profil = mehr Besucher"]}, "dashboard": {"title": "Dashboard", "why": "Alle Zahlen auf einen Blick — von überall auf dem Handy.", "details": ["✅ Reservierungen & Anfragen in Echtzeit", "✅ WhatsApp-Statistiken (Nachrichten, Themen)", "✅ Social Media Performance", "✅ Erreichbar von Handy, Tablet, PC"]}, "email-monitor": {"title": "E-Mail Monitor", "why": "Wichtige E-Mails werden automatisch erkannt und markiert.", "details": ["✅ KI erkennt wichtige E-Mails (Reservierungen, Beschwerden, Lieferanten)", "✅ Sofort-Benachrichtigung bei dringenden Nachrichten", "✅ Spam & Unwichtiges wird automatisch gefiltert", "💡 Nie wieder eine wichtige E-Mail verpassen"]}, "reels-ki": {"title": "Reels mit KI-Videos", "why": "Automatische Kurzvideo-Reels für maximale Reichweite.", "details": ["✅ KI erstellt automatisch Reels aus deinen Speisefotos", "✅ Musik, Text-Overlay & Hashtags automatisch", "✅ Reels haben 3x mehr Reichweite als normale Posts", "💡 Teuerster Preis weil Video-Erstellung komplexer ist"]}};
-  function showModuleInfo(key) {
-    const info = MODULE_INFO[key];
-    if (!info) return;
-    document.getElementById('popupTitle').textContent = info.title;
-    document.getElementById('popupWhy').textContent = info.why;
-    document.getElementById('popupList').innerHTML = info.details.map(d => '<li>' + d + '</li>').join('');
-    document.getElementById('infoPopupOverlay').classList.add('show');
+
+  const CHAT_WEBHOOK_URL='https://n8n.leolan.net/webhook/onboarding-chat';
+  const MODULE_INFO={
+    'whatsapp-ki-bot':{title:'WhatsApp KI-Bot',price:'499€/Mo',icon:'💬',why:'Unser Hauptprodukt — automatisch Reservierungen, FAQ und 24/7 Antworten.',details:['Reservierungen automatisch annehmen','FAQ und Standardfragen sofort beantworten','Ideal für Restaurants mit vielen WhatsApp-Anfragen'],suggestions:['Starter-Paket','dashboard','google-business']},
+    'instagram-posts':{title:'Instagram Auto-Posts',price:'89€/Mo',icon:'📸',why:'Tägliche KI-Posts mit Bild für mehr Reichweite auf Instagram.',details:['Automatische Bildposts mit Text und Hashtags','Perfekt für regelmäßige Sichtbarkeit','Ergänzt Facebook besonders gut'],suggestions:['facebook-posts','reels-ki','google-business']},
+    'facebook-posts':{title:'Facebook Auto-Posts',price:'59€/Mo',icon:'📘',why:'Günstiger Social-Media-Autopilot für Facebook.',details:['Tägliche Posts automatisch veröffentlichen','Sinnvoll als Ergänzung zu Instagram','Einfacher Einstieg in Social Automation'],suggestions:['instagram-posts','bewertungsmanagement']},
+    'bewertungsmanagement':{title:'Bewertungsmanagement',price:'89€/Mo',icon:'⭐',why:'KI beantwortet Google Reviews freundlich und schnell.',details:['Antworten auf positive und kritische Bewertungen','Mehr Aktivität im Profil','Spart täglich Zeit im Betrieb'],suggestions:['google-business','dashboard']},
+    'google-business':{title:'Google Business',price:'79€/Mo',icon:'🗺️',why:'Ihr Profil bleibt aktuell und wirkt aktiver für neue Gäste.',details:['Öffnungszeiten und Infos aktuell halten','Posts und Profilpflege automatisieren','Stark in Kombination mit Bewertungen'],suggestions:['bewertungsmanagement','dashboard']},
+    'dashboard':{title:'Dashboard',price:'39€/Mo',icon:'📊',why:'Alle Zahlen und Statuswerte in einer Übersicht.',details:['Kennzahlen in Echtzeit','Überblick über Anfragen und Aktivität','Besonders stark mit mehreren Modulen'],suggestions:['whatsapp-ki-bot','google-business','bewertungsmanagement']},
+    'email-monitor':{title:'E-Mail Monitor',price:'59€/Mo',icon:'📧',why:'Wichtige E-Mails werden erkannt, priorisiert und nicht übersehen.',details:['Dringende Mails automatisch erkennen','Weniger Chaos im Postfach','Gut für Betriebe mit vielen Anfragen'],suggestions:['dashboard','whatsapp-ki-bot']},
+    'reels-ki':{title:'Reels KI-Videos',price:'149€/Mo',icon:'🎬',why:'Automatische Reels sorgen für mehr Reichweite als klassische Posts.',details:['Video-Content aus vorhandenem Material','Hohe Aufmerksamkeit auf Instagram','Stark als Upsell zu Social Media'],suggestions:['instagram-posts','facebook-posts']}
+  };
+  const moduleChatState={moduleKey:null,history:[],loading:false};
+  function getModuleInfo(key){return MODULE_INFO[key]||MODULES[key]||null}
+  function addChatMessage(role,text){const wrap=document.getElementById('moduleChatMessages');if(!wrap)return;const el=document.createElement('div');el.className=`chat-bubble ${role}`;el.textContent=text;wrap.appendChild(el);wrap.scrollTop=wrap.scrollHeight;return el}
+  function addChatStatus(text){const wrap=document.getElementById('moduleChatMessages');const el=document.createElement('div');el.className='chat-bubble-status';el.textContent=text;wrap.appendChild(el);wrap.scrollTop=wrap.scrollHeight;return el}
+  function resetModuleChat(){moduleChatState.history=[];moduleChatState.loading=false;const wrap=document.getElementById('moduleChatMessages');if(wrap)wrap.innerHTML='';toggleModuleSelect(false)}
+  function toggleModuleSelect(show){const btn=document.getElementById('moduleSelectBtn');if(btn)btn.classList.toggle('show',!!show)}
+  function moduleReplySuggestsSelection(text=''){return /auswählen|auswaehlen|direkt auswählen|direkt auswaehlen|modul auswählen|modul auswaehlen/i.test(text)}
+  function openModuleChat(key){const info=getModuleInfo(key);if(!info)return;moduleChatState.moduleKey=key;resetModuleChat();document.getElementById('moduleChatTitle').textContent=info.title||info.name||'Modul-Chat';document.getElementById('moduleChatSubtitle').textContent=`${info.price||formatCurrency(info.price)} · ${info.why||info.desc||'Stellen Sie Ihre Fragen direkt zum Modul.'}`;document.getElementById('moduleChatIcon').textContent=info.icon||'💬';document.getElementById('moduleChatOverlay').classList.add('show');const greeting=`Hi! Ich erkläre dir gerne das ${(info.title||info.name)}-Modul. Was möchtest du wissen?`;addChatMessage('assistant',greeting);moduleChatState.history.push({role:'assistant',content:greeting});setTimeout(()=>document.getElementById('moduleChatInput')?.focus(),60)}
+  function closeModuleChat(){document.getElementById('moduleChatOverlay').classList.remove('show')}
+  function showModuleInfo(key){openModuleChat(key)}
+  function selectModuleFromChat(){const key=moduleChatState.moduleKey;if(!key)return;const cb=document.querySelector(`input[name="selectedModules"][value="${key}"]`);if(cb){cb.checked=true;updateSelectionUI();persistForm();const card=document.querySelector(`[data-module-card="${key}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});addChatMessage('assistant','Perfekt — ich habe das Modul für Sie markiert. Sie können jetzt einfach mit dem Onboarding weitermachen.');toggleModuleSelect(false)}}
+  async function sendModuleChatMessage(){if(moduleChatState.loading)return;const input=document.getElementById('moduleChatInput');const message=(input?.value||'').trim();if(!message||!moduleChatState.moduleKey)return;addChatMessage('user',message);moduleChatState.history.push({role:'user',content:message});if(input){input.value='';input.style.height='54px'};moduleChatState.loading=true;const sendBtn=document.getElementById('moduleChatSend');if(sendBtn)sendBtn.disabled=true;const status=addChatStatus('LeoLan KI denkt nach...');
+    try{
+      const response=await fetch(CHAT_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,moduleKey:moduleChatState.moduleKey,history:moduleChatState.history})});
+      if(!response.ok)throw new Error(`HTTP ${response.status}`);
+      const result=await response.json();
+      const reply=(result.reply||result.message||'Gerade konnte keine Antwort erzeugt werden. Bitte versuchen Sie es erneut.').trim();
+      status.remove();
+      addChatMessage('assistant',reply);
+      moduleChatState.history.push({role:'assistant',content:reply});
+      toggleModuleSelect(moduleReplySuggestsSelection(reply));
+    }catch(error){console.error(error);status.remove();const fallback='Gerade gibt es ein Verbindungsproblem. Kurz gesagt: '+((getModuleInfo(moduleChatState.moduleKey)?.why)||'Dieses Modul ist eine starke Ergänzung für Ihr Setup.')+' Möchten Sie dieses Modul direkt auswählen?';addChatMessage('assistant',fallback);moduleChatState.history.push({role:'assistant',content:fallback});toggleModuleSelect(true)}
+    finally{moduleChatState.loading=false;if(sendBtn)sendBtn.disabled=false;input?.focus()}
   }
-  function closePopup() {
-    document.getElementById('infoPopupOverlay').classList.remove('show');
-  }
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&document.getElementById('moduleChatOverlay').classList.contains('show'))closeModuleChat()});
+  document.addEventListener('input',event=>{if(event.target&&event.target.id==='moduleChatInput'){event.target.style.height='auto';event.target.style.height=Math.min(event.target.scrollHeight,140)+'px'}});
+  document.addEventListener('keydown',event=>{if(event.target&&event.target.id==='moduleChatInput'&&event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendModuleChatMessage()}});
 
   </script>
-
-<div class="info-popup-overlay" id="infoPopupOverlay" onclick="if(event.target===this)closePopup()">
-  <div class="info-popup">
-    <h3 id="popupTitle"></h3>
-    <div class="why" id="popupWhy"></div>
-    <ul id="popupList"></ul>
-    <button class="info-popup-close" onclick="closePopup()">Verstanden ✓</button>
-  </div>
-</div>
-
-
-<div class="info-popup-overlay" id="infoPopupOverlay" onclick="if(event.target===this)closePopup()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:9999;align-items:center;justify-content:center;padding:20px;">
-  <div style="background:#1a2744;border-radius:20px;padding:24px;max-width:400px;width:100%;border:1px solid rgba(245,166,35,.3);">
-    <h3 id="popupTitle" style="color:#f5a623;margin:0 0 6px;font-size:17px;"></h3>
-    <div id="popupWhy" style="color:rgba(255,255,255,.6);font-size:12px;margin-bottom:14px;font-style:italic;"></div>
-    <ul id="popupList" style="list-style:none;padding:0;margin:0 0 18px;display:flex;flex-direction:column;gap:7px;"></ul>
-    <button onclick="closePopup()" style="background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;width:100%;">Verstanden ✓</button>
-  </div>
-</div>
-<script>
-var MODULE_INFO={
-'whatsapp-ki-bot':{title:'WhatsApp KI-Bot',why:'Unser Hauptprodukt — vollautomatisch, 24/7 erreichbar.',details:['✅ Beantwortet Gästefragen automatisch (Öffnungszeiten, Anfahrt, Menü)','✅ Nimmt Reservierungen entgegen — auch nachts','✅ Spricht die Sprache des Gastes (DE, EN, TR...)','✅ Stempelkarte & CRM inklusive','💡 Inkl. 500 Nachrichten/Monat']},
-'instagram-posts':{title:'Instagram Auto-Posts',why:'Teurer als Facebook: Instagram erfordert Bild-Upload + komplexere API.',details:['✅ Täglich 1 KI-Post mit Bild','✅ Text, Hashtags & Emojis automatisch','✅ Angepasst an dein Restaurant','💡 Instagram-API ist strenger → höherer Preis']},
-'facebook-posts':{title:'Facebook Auto-Posts',why:'Günstiger als Instagram — einfachere API, nur Text.',details:['✅ Täglich 1 KI-Post','✅ Text & Hashtags automatisch','💡 Günstiger weil keine Bild-Upload-API nötig']},
-'bewertungsmanagement':{title:'Bewertungsmanagement',why:'KI antwortet automatisch auf Google-Bewertungen.',details:['✅ Alle Bewertungen werden automatisch beantwortet','✅ Ton passt sich an: Lob freundlich, Kritik professionell','✅ Mehr Antworten = besseres Google-Ranking']},
-'google-business':{title:'Google Business',why:'Dein Google-Profil immer aktuell.',details:['✅ Öffnungszeiten automatisch aktuell','✅ Wöchentliche Google-Posts','💡 70% der Gäste googeln vor dem Besuch']},
-'dashboard':{title:'Dashboard',why:'Alle Zahlen auf einen Blick.',details:['✅ Reservierungen & Anfragen in Echtzeit','✅ WhatsApp-Statistiken','✅ Von Handy, Tablet, PC erreichbar']},
-'email-monitor':{title:'E-Mail Monitor',why:'Wichtige E-Mails automatisch erkennen.',details:['✅ KI erkennt wichtige E-Mails','✅ Sofort-Benachrichtigung bei Dringendem','💡 Nie wieder eine wichtige E-Mail verpassen']},
-'reels-ki':{title:'Reels mit KI-Videos',why:'Automatische Kurzvideo-Reels für maximale Reichweite.',details:['✅ KI erstellt Reels aus Speisefotos','✅ Musik & Text-Overlay automatisch','✅ Reels haben 3x mehr Reichweite als Posts']}
-};
-function showModuleInfo(key){var i=MODULE_INFO[key];if(!i)return;document.getElementById('popupTitle').textContent=i.title;document.getElementById('popupWhy').textContent=i.why;document.getElementById('popupList').innerHTML=i.details.map(function(d){return'<li style="color:rgba(255,255,255,.85);font-size:13px;">'+d+'</li>';}).join('');var o=document.getElementById('infoPopupOverlay');o.style.display='flex';}
-function closePopup(){document.getElementById('infoPopupOverlay').style.display='none';}
-</script>
 </body>
 </html>
