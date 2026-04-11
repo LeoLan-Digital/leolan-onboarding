@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775901297 -->
+<!-- v1775901403 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<7&&(localStorage.setItem("ll_version",7),o>0&&window.location.reload(!0))}();
   </script>
@@ -353,7 +353,8 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
   function closeModuleChat(){document.getElementById('moduleChatOverlay').classList.remove('show')}
   function showModuleInfo(key){
   window._currentModuleKey = key;
-  var info = MODULE_INFO && MODULE_INFO[key] ? MODULE_INFO[key] : null;
+  var _mi = (typeof MODULE_INFO !== 'undefined') ? MODULE_INFO : {};
+  var info = _mi[key] || null;
   if (!info) { openModuleChat(key); return; }
   document.getElementById('infoPopupTitle').textContent = (info.icon||'') + ' ' + info.title;
   document.getElementById('infoPopupWhy').textContent = info.why || '';
