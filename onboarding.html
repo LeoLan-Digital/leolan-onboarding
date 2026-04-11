@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775905694 -->
+<!-- v1775905932 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
@@ -365,7 +365,7 @@ sendModuleChatMessage('__start__');setTimeout(()=>document.getElementById('modul
   document.getElementById('infoPopupOverlay').style.display = 'flex';
 }
   function selectModuleFromChat(){const key=moduleChatState.moduleKey;if(!key)return;const cb=document.querySelector(`input[name="selectedModules"][value="${key}"]`);if(cb){cb.checked=true;updateSelectionUI();persistForm();const card=document.querySelector(`[data-module-card="${key}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});addChatMessage('assistant','Perfekt — ich habe das Modul für Sie markiert. Sie können jetzt einfach mit dem Onboarding weitermachen.');toggleModuleSelect(false)}}
-  async function sendModuleChatMessage(){if(moduleChatState.loading)return;const input=document.getElementById('moduleChatInput');const message=(input?.value||'').trim();if(!message||!moduleChatState.moduleKey)return;addChatMessage('user',message);moduleChatState.history.push({role:'user',content:message});if(input){input.value='';input.style.height='54px'};moduleChatState.loading=true;const sendBtn=document.getElementById('moduleChatSend');if(sendBtn)sendBtn.disabled=true;const status=addChatStatus('LeoLan KI denkt nach...');
+  async function sendModuleChatMessage(forcedMessage){if(moduleChatState.loading)return;const input=document.getElementById('moduleChatInput');const message=forcedMessage||(input?.value||'').trim();if(!message||!moduleChatState.moduleKey)return;const isAutoStart=forcedMessage==='__start__';if(!isAutoStart){addChatMessage('user',message);moduleChatState.history.push({role:'user',content:message});}if(!isAutoStart&&input){input.value='';input.style.height='54px'};moduleChatState.loading=true;const sendBtn=document.getElementById('moduleChatSend');if(sendBtn)sendBtn.disabled=true;const status=addChatStatus('LeoLan KI denkt nach...');
     try{
       const response=await fetch(CHAT_WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,moduleKey:moduleChatState.moduleKey,history:moduleChatState.history})});
       if(!response.ok)throw new Error(`HTTP ${response.status}`);
