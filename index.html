@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775903169 -->
+<!-- v1775905476 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
@@ -353,7 +353,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
   function resetModuleChat(){moduleChatState.history=[];moduleChatState.loading=false;const wrap=document.getElementById('moduleChatMessages');if(wrap)wrap.innerHTML='';toggleModuleSelect(false)}
   function toggleModuleSelect(show){const btn=document.getElementById('moduleSelectBtn');if(btn)btn.classList.toggle('show',!!show)}
   function moduleReplySuggestsSelection(text=''){return /auswählen|auswaehlen|direkt auswählen|direkt auswaehlen|modul auswählen|modul auswaehlen/i.test(text)}
-  function openModuleChat(key){const info=getModuleInfo(key);if(!info)return;moduleChatState.moduleKey=key;resetModuleChat();document.getElementById('moduleChatTitle').textContent=info.title||info.name||'Modul-Chat';document.getElementById('moduleChatSubtitle').textContent=`${info.price||formatCurrency(info.price)} · ${info.why||info.desc||'Stellen Sie Ihre Fragen direkt zum Modul.'}`;document.getElementById('moduleChatIcon').textContent=info.icon||'💬';document.getElementById('moduleChatOverlay').classList.add('show');const greeting=`Hi! Ich erkläre dir gerne das ${(info.title||info.name)}-Modul. Was möchtest du wissen?`;addChatMessage('assistant',greeting);moduleChatState.history.push({role:'assistant',content:greeting});setTimeout(()=>document.getElementById('moduleChatInput')?.focus(),60)}
+  function openModuleChat(key){const info=getModuleInfo(key);if(!info)return;moduleChatState.moduleKey=key;resetModuleChat();document.getElementById('moduleChatTitle').textContent=info.title||info.name||'Modul-Chat';document.getElementById('moduleChatSubtitle').textContent=`${info.price||formatCurrency(info.price)} · ${info.why||info.desc||'Stellen Sie Ihre Fragen direkt zum Modul.'}`;document.getElementById('moduleChatIcon').textContent=info.icon||'💬';document.getElementById('moduleChatOverlay').classList.add('show');const greeting=`Hallo! Willkommen bei LeoLan Digital 👋\n\nIch bin dein persönlicher Berater — und gleichzeitig eine Live-Demo unseres WhatsApp KI-Bots, den du als Restaurantbesitzer oder Hotelier für dein Unternehmen einsetzen kannst.\n\nDarf ich dich duzen oder möchtest du gesiezt werden?`;addChatMessage('assistant',greeting);moduleChatState.history.push({role:'assistant',content:greeting});setTimeout(()=>document.getElementById('moduleChatInput')?.focus(),60)}
   function closeModuleChat(){document.getElementById('moduleChatOverlay').classList.remove('show')}
   function showModuleInfo(key){
   window._currentModuleKey = key;
