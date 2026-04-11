@@ -53,7 +53,7 @@
   .info-close{background:#f5a623;color:#1a2744;border:none;border-radius:12px;padding:11px 20px;font-weight:800;font-size:14px;cursor:pointer;width:100%;}
 
   </style>
-<!-- v1775899767 -->
+<!-- v1775899808 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<6&&(localStorage.setItem("ll_version",6),o>0&&window.location.reload(!0))}();
   </script>
@@ -282,7 +282,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
     ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
-    renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();
+    document.addEventListener('DOMContentLoaded',function(){renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();});
 
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
     function updateSubmitBtn() {
