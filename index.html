@@ -57,9 +57,9 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775901580 -->
+<!-- v1775901671 -->
 </head>
-<body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<7&&(localStorage.setItem("ll_version",7),o>0&&window.location.reload(!0))}();
+<body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
   
 
@@ -184,7 +184,7 @@
   </div>
 </div>
 
-<script>    const STORAGE_KEY='leolan-module-configurator-v4',CHECKOUT_WEBHOOK_URL='https://n8n.leolan.net/webhook/stripe-checkout',STRIPE_PUBLISHABLE_KEY='pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX',SUCCESS_URL=`${window.location.origin}${window.location.pathname}?success=true`,CANCEL_URL=`${window.location.origin}${window.location.pathname}`,VAT_RATE=.19,SETUP_FEE=349,TOTAL_STEPS=5;
+<script>    const STORAGE_KEY='leolan-module-configurator-v1775901671',CHECKOUT_WEBHOOK_URL='https://n8n.leolan.net/webhook/stripe-checkout',STRIPE_PUBLISHABLE_KEY='pk_test_51KxGPaLwGb6me8Phm0pCaHLHkmZwLPHlnQI70AoIgkJyX3RAIwcfW8x6f6ZLgeQk5AjuIaz6UR3aVFpVYH2CcPNU000zA3Y7LX',SUCCESS_URL=`${window.location.origin}${window.location.pathname}?success=true`,CANCEL_URL=`${window.location.origin}${window.location.pathname}`,VAT_RATE=.19,SETUP_FEE=349,TOTAL_STEPS=5;
 
     // Paket-Logik: URL-Parameter ?paket=starter|pro
     const urlParams = new URLSearchParams(window.location.search);
@@ -310,7 +310,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
 
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
-    ['leolan-module-configurator-v1','leolan-module-configurator-v2','leolan-module-configurator-v3'].forEach(k=>localStorage.removeItem(k));
+    ['leolan-module-configurator-v1775901671','leolan-module-configurator-v1775901671','leolan-module-configurator-v1775901671'].forEach(k=>localStorage.removeItem(k));
     document.addEventListener('DOMContentLoaded',function(){if(new URLSearchParams(window.location.search).get('reset')==='1'){localStorage.clear();};renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();});
 
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
