@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775903040 -->
+<!-- v1775903169 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
@@ -363,7 +363,7 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
   document.getElementById('infoPopupIcon').textContent = info.icon || '';
   document.getElementById('infoPopupTitle').textContent = info.title;
   document.getElementById('infoPopupWhy').textContent = info.why || '';
-  document.getElementById('infoPopupList').innerHTML = (info.details||[]).map(function(d){return'<li style="display:flex;align-items:flex-start;gap:10px;background:rgba(255,255,255,.04);border-radius:12px;padding:10px 12px;border:1px solid rgba(255,255,255,.06);"><span style="flex-shrink:0;font-size:15px;">'+d.split(' ')[0]+'</span><span style="color:rgba(255,255,255,.85);font-size:13px;line-height:1.5;">'+d.split(' ').slice(1).join(' ')+'</span></li>';}).join('');
+  document.getElementById('infoPopupList').innerHTML = (info.details||[]).map(function(d){return'<li style="display:flex;align-items:flex-start;gap:10px;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid #dce4f1;box-shadow:0 2px 8px rgba(26,39,68,.05);"><span style="flex-shrink:0;font-size:16px;">'+d.split(" ")[0]+'</span><span style="color:#17233b;font-size:13px;line-height:1.5;font-weight:500;">'+d.split(" ").slice(1).join(" ")+'</span></li>';}).join('');
   document.getElementById('infoPopupOverlay').style.display = 'flex';
 }
   function selectModuleFromChat(){const key=moduleChatState.moduleKey;if(!key)return;const cb=document.querySelector(`input[name="selectedModules"][value="${key}"]`);if(cb){cb.checked=true;updateSelectionUI();persistForm();const card=document.querySelector(`[data-module-card="${key}"]`);if(card)card.scrollIntoView({behavior:'smooth',block:'center'});addChatMessage('assistant','Perfekt — ich habe das Modul für Sie markiert. Sie können jetzt einfach mit dem Onboarding weitermachen.');toggleModuleSelect(false)}}
@@ -386,53 +386,25 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
 
   </script>
 
-<div id="infoPopupOverlay" style="display:none;position:fixed;inset:0;z-index:9998;align-items:center;justify-content:center;padding:16px;" onclick="if(event.target===this)document.getElementById('infoPopupOverlay').style.display='none'">
-  <!-- Blur-Backdrop -->
-  <div style="position:fixed;inset:0;background:rgba(5,10,25,0.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);"></div>
-  <!-- Modal -->
-  <div style="position:relative;background:linear-gradient(160deg,#1e2f55 0%,#111d35 60%,#0d1526 100%);border-radius:28px;max-width:400px;width:100%;border:1px solid rgba(255,255,255,.1);box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(245,166,35,.1);overflow:hidden;max-height:88vh;display:flex;flex-direction:column;">
-    
-    <!-- Glow oben -->
-    <div style="position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:200px;height:80px;background:radial-gradient(ellipse,rgba(245,166,35,.25),transparent 70%);pointer-events:none;"></div>
-    
-    <!-- Icon groß -->
-    <div style="padding:28px 28px 0;text-align:center;">
-      <div id="infoPopupIcon" style="font-size:48px;line-height:1;margin-bottom:12px;filter:drop-shadow(0 4px 12px rgba(245,166,35,.4));"></div>
-      <h3 id="infoPopupTitle" style="color:#fff;margin:0 0 6px;font-size:20px;font-weight:900;letter-spacing:-.3px;"></h3>
-      <div id="infoPopupWhy" style="color:rgba(245,166,35,.85);font-size:12px;font-weight:600;line-height:1.4;"></div>
+<div id="infoPopupOverlay" style="display:none;position:fixed;inset:0;z-index:9998;align-items:center;justify-content:center;padding:18px;background:rgba(14,22,38,.62);backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);" onclick="if(event.target===this)document.getElementById('infoPopupOverlay').style.display='none'">
+  <div style="width:min(440px,100%);background:linear-gradient(180deg,#fff 0%,#f7faff 100%);border:1px solid rgba(255,255,255,.72);border-radius:28px;box-shadow:0 32px 90px rgba(8,15,32,.32);overflow:hidden;display:flex;flex-direction:column;max-height:85vh;">
+    <!-- Header navy -->
+    <div style="padding:20px 24px 18px;background:linear-gradient(135deg,#1a2744 0%,#24365d 100%);display:flex;align-items:center;gap:14px;">
+      <div id="infoPopupIcon" style="font-size:32px;line-height:1;"></div>
+      <div style="flex:1;">
+        <div id="infoPopupTitle" style="color:#fff;font-size:18px;font-weight:900;letter-spacing:-.3px;margin-bottom:3px;"></div>
+        <div id="infoPopupWhy" style="color:rgba(245,166,35,.9);font-size:12px;font-weight:600;line-height:1.4;"></div>
+      </div>
+      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="border:0;background:rgba(255,255,255,.12);color:#fff;width:36px;height:36px;border-radius:12px;font-size:18px;cursor:pointer;flex-shrink:0;line-height:1;">×</button>
     </div>
-
-    <!-- Divider -->
-    <div style="margin:18px 28px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);"></div>
-
     <!-- Features -->
-    <div style="padding:0 28px;flex:1;overflow-y:auto;">
+    <div style="padding:18px 24px;flex:1;overflow-y:auto;background:#f8fbff;">
       <ul id="infoPopupList" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;"></ul>
     </div>
-
     <!-- Buttons -->
-    <div style="padding:20px 28px 24px;display:flex;gap:10px;margin-top:18px;">
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="background:rgba(255,255,255,.07);color:rgba(255,255,255,.7);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:14px 16px;font-weight:700;font-size:14px;cursor:pointer;flex:1;transition:all .2s;font-family:inherit;">Alles klar ✓</button>
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none';openModuleChat(window._currentModuleKey);" style="background:linear-gradient(135deg,#f5a623 0%,#e8920a 100%);color:#1a2744;border:none;border-radius:16px;padding:14px 16px;font-weight:900;font-size:14px;cursor:pointer;flex:1.3;box-shadow:0 6px 20px rgba(245,166,35,.35);font-family:inherit;letter-spacing:-.2px;">💬 Noch Fragen?</button>
+    <div style="padding:14px 24px 20px;display:flex;gap:10px;background:#fff;border-top:1px solid #dce4f1;">
+      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="background:#f0f4fc;color:#1a2744;border:1px solid #dce4f1;border-radius:14px;padding:13px 16px;font-weight:700;font-size:14px;cursor:pointer;flex:1;font-family:inherit;">Verstanden ✓</button>
+      <button onclick="document.getElementById('infoPopupOverlay').style.display='none';openModuleChat(window._currentModuleKey);" style="background:linear-gradient(135deg,#f5a623,#e8920a);color:#1a2744;border:none;border-radius:14px;padding:13px 16px;font-weight:900;font-size:14px;cursor:pointer;flex:1.3;box-shadow:0 4px 16px rgba(245,166,35,.3);font-family:inherit;">💬 Noch Fragen?</button>
     </div>
   </div>
 </div>
-        <h3 id="infoPopupTitle" style="color:#fff;margin:0;font-size:18px;font-weight:800;"></h3>
-      </div>
-      <div id="infoPopupWhy" style="color:#f5a623;font-size:12px;font-weight:600;opacity:.85;"></div>
-    </div>
-    <!-- Features -->
-    <div style="padding:18px 24px;flex:1;overflow-y:auto;">
-      <ul id="infoPopupList" style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;"></ul>
-    </div>
-    <!-- Buttons -->
-    <div style="padding:16px 24px 20px;display:flex;gap:10px;border-top:1px solid rgba(255,255,255,.06);">
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none'" style="background:rgba(255,255,255,.08);color:rgba(255,255,255,.8);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:12px 16px;font-weight:700;font-size:14px;cursor:pointer;flex:1;transition:all .2s;">Verstanden ✓</button>
-      <button onclick="document.getElementById('infoPopupOverlay').style.display='none';openModuleChat(window._currentModuleKey);" style="background:linear-gradient(135deg,#f5a623,#e09015);color:#1a2744;border:none;border-radius:14px;padding:12px 16px;font-weight:800;font-size:14px;cursor:pointer;flex:1.2;box-shadow:0 4px 16px rgba(245,166,35,.3);">💬 Noch Fragen?</button>
-    </div>
-  </div>
-</div>
-
-</body>
-</html>
-}
