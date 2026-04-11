@@ -57,7 +57,15 @@
       </div>
       <form id="onboardingForm" novalidate>
         <div class="step active" data-step="0"><span class="step-tag">Schritt 1</span><h2>Wählen Sie Ihre Module</h2><p class="intro">Aktivieren Sie mindestens ein Modul. Der monatliche Netto-Gesamtpreis aktualisiert sich sofort.</p><div class="module-grid" id="moduleGrid"></div><div class="selection-error" id="selectionError">Bitte wählen Sie mindestens 1 Modul aus.</div><div class="sticky-total"><div class="sticky-total-head"><div><strong>Aktuelle Auswahl</strong><span id="selectionCount">0 Module ausgewählt</span></div><div class="sticky-total-price" id="liveTotal">0€</div></div><div class="selection-hint">Alle Preise verstehen sich netto pro Monat. In der Zusammenfassung sehen Sie zusätzlich die einmalige Setup-Gebühr sowie die passende MwSt.-Logik.</div></div></div>
-        <div class="step" data-step="1"><span class="step-tag">Schritt 2</span><h2>Unternehmensdaten</h2><p class="intro">Diese Angaben nutzen wir für Rechnung, Einrichtung und die Vorbereitung Ihres Systems.</p><div class="grid two">
+        
+      <!-- Paket-Banner (nur bei ?paket=...) -->
+      <div id="paketBanner" style="display:none;background:linear-gradient(135deg,#1a2744,#243060);border-radius:16px;padding:20px 24px;margin-bottom:28px;border:1px solid rgba(245,166,35,0.3);">
+        <div style="color:#f5a623;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;">Ihr gewähltes Paket</div>
+        <div id="paketBannerName" style="color:#fff;font-size:20px;font-weight:900;margin-bottom:6px;"></div>
+        <div id="paketBannerModules" style="color:rgba(255,255,255,0.7);font-size:13px;line-height:1.6;"></div>
+        <div id="paketBannerPreis" style="color:#f5a623;font-size:16px;font-weight:800;margin-top:10px;"></div>
+      </div>
+<div class="step" data-step="1"><span class="step-tag">Schritt 2</span><h2>Unternehmensdaten</h2><p class="intro">Diese Angaben nutzen wir für Rechnung, Einrichtung und die Vorbereitung Ihres Systems.</p><div class="grid two">
           <div class="field" data-field="companyName"><label for="companyName">Unternehmensname <span class="req">*</span></label><input type="text" id="companyName" placeholder="z. B. Bella Vista GmbH" required><div class="error">Bitte Unternehmensname eingeben.</div></div>
           <div class="field" data-field="customerEmail"><label for="customerEmail">E-Mail <span class="req">*</span></label><input type="email" id="customerEmail" placeholder="name@firma.de" required><div class="error">Bitte eine gültige E-Mail-Adresse eingeben.</div></div>
           <div class="field" data-field="phone"><label for="phone">Telefon</label><input type="tel" id="phone" placeholder="+49 ..."></div>
@@ -104,6 +112,8 @@
       'pro': ['whatsapp-ki-bot', 'instagram-posts', 'facebook-posts', 'bewertungsmanagement', 'google-business', 'dashboard'],
     };
     const PAKET_LABELS = { 'starter': 'Starter-Paket', 'pro': 'Pro-Paket' };
+      const PAKET_PREISE = { 'starter': '199€ / Monat + 349€ Setup-Gebühr (einmalig)', 'pro': '349€ / Monat + 349€ Setup-Gebühr (einmalig)', 'enterprise': 'Individuell' };
+
     const IS_PAKET = PAKET in PAKET_MODULES;
     const MODULES={'whatsapp-ki-bot':{key:'whatsapp-ki-bot',icon:'💬',name:'WhatsApp KI-Bot',price:149,priceId:'price_1TK4UELwGb6me8Ph9X39bAfa',desc:'KI-Assistent für WhatsApp - Reservierungen, CRM, Stempelkarte'},'instagram-posts':{key:'instagram-posts',icon:'📸',name:'Instagram Auto-Posts',price:89,priceId:'price_1TK4UELwGb6me8PhLNj6q87A',desc:'Tägliche KI-Posts auf Instagram'},'facebook-posts':{key:'facebook-posts',icon:'📘',name:'Facebook Auto-Posts',price:59,priceId:'price_1TK4UFLwGb6me8PhQdjnyWdg',desc:'Tägliche KI-Posts auf Facebook'},'bewertungsmanagement':{key:'bewertungsmanagement',icon:'⭐',name:'Bewertungsmanagement',price:89,priceId:'price_1TK4UGLwGb6me8PhNkdH2D0m',desc:'KI antwortet automatisch auf Google Reviews'},'google-business':{key:'google-business',icon:'🗺️',name:'Google Business',price:79,priceId:'price_1TK4UHLwGb6me8Ph1THSCHXm',desc:'Google Business Profil automatisch aktualisieren'},dashboard:{key:'dashboard',icon:'📊',name:'Dashboard',price:39,priceId:'price_1TK4UILwGb6me8PhfBpFSyad',desc:'Echtzeit-Dashboard für alle Kennzahlen'},'email-monitor':{key:'email-monitor',icon:'📧',name:'E-Mail Monitor',price:59,priceId:'price_1TK4UJLwGb6me8PhkUVyJ3IK',desc:'Wichtige E-Mails automatisch erkennen'},'reels-ki':{key:'reels-ki',icon:'🎬',name:'Reels mit KI-Videos',price:149,priceId:'price_1TK4UKLwGb6me8PhfOByhrQa',desc:'Automatische KI-Video-Reels für Instagram'}};
     const STEP_TITLES=['Module wählen','Unternehmensdaten','Ihre Daten','Unterlagen hochladen','Zusammenfassung & Bezahlung'];
