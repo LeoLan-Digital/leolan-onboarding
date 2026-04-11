@@ -145,7 +145,33 @@
       'pro': ['whatsapp-ki-bot', 'instagram-posts', 'facebook-posts', 'bewertungsmanagement', 'google-business', 'dashboard'],
     };
     const PAKET_LABELS = { 'starter': 'Starter-Paket', 'pro': 'Pro-Paket' };
-      const PAKET_PREISE = { 'starter': '199€ / Monat + 349€ Setup-Gebühr (einmalig)', 'pro': '349€ / Monat + 349€ Setup-Gebühr (einmalig)', 'enterprise': 'Individuell' };
+      const PAKET_FEATURES = {
+      'starter': [
+        {icon: '📋', text: 'Digitale Speisekarte (QR-Code)'},
+        {icon: '💬', text: 'WhatsApp-Assistent 24/7'},
+        {icon: '📅', text: 'Reservierungsmanagement'},
+        {icon: '🤖', text: 'FAQ-Bot (Öffnungszeiten, Anfahrt)'},
+        {icon: '📊', text: 'Dashboard & Benachrichtigungen'},
+        {icon: '📧', text: 'E-Mail-Support'},
+      ],
+      'pro': [
+        {icon: '✅', text: 'Alles aus dem Starter-Paket'},
+        {icon: '📸', text: 'KI Social Media (täglich)'},
+        {icon: '📘', text: 'Instagram & Facebook automatisch'},
+        {icon: '🗺️', text: 'Google Business Automatisierung'},
+        {icon: '⭐', text: 'Bewertungsmanagement (KI-Antworten)'},
+        {icon: '📞', text: 'Telefonischer Support'},
+      ],
+      'enterprise': [
+        {icon: '✅', text: 'Alles aus dem Pro-Paket'},
+        {icon: '⚙️', text: 'Individuelle Automatisierungen'},
+        {icon: '🏢', text: 'Mehrere Standorte'},
+        {icon: '🖥️', text: 'Kassensystem-Anbindung'},
+        {icon: '👤', text: 'Dedicated Account Manager'},
+        {icon: '🔒', text: 'SLA & Priority Support'},
+      ],
+    };
+    const PAKET_PREISE = { 'starter': '199€ / Monat + 349€ Setup-Gebühr (einmalig)', 'pro': '349€ / Monat + 349€ Setup-Gebühr (einmalig)', 'enterprise': 'Individuell' };
 
     const IS_PAKET = PAKET in PAKET_MODULES;
     const MODULES={'whatsapp-ki-bot':{key:'whatsapp-ki-bot',icon:'💬',name:'WhatsApp KI-Bot',price:149,priceId:'price_1TK4UELwGb6me8Ph9X39bAfa',desc:'KI-Assistent für WhatsApp - Reservierungen, CRM, Stempelkarte'},'instagram-posts':{key:'instagram-posts',icon:'📸',name:'Instagram Auto-Posts',price:89,priceId:'price_1TK4UELwGb6me8PhLNj6q87A',desc:'Tägliche KI-Posts auf Instagram'},'facebook-posts':{key:'facebook-posts',icon:'📘',name:'Facebook Auto-Posts',price:59,priceId:'price_1TK4UFLwGb6me8PhQdjnyWdg',desc:'Tägliche KI-Posts auf Facebook'},'bewertungsmanagement':{key:'bewertungsmanagement',icon:'⭐',name:'Bewertungsmanagement',price:89,priceId:'price_1TK4UGLwGb6me8PhNkdH2D0m',desc:'KI antwortet automatisch auf Google Reviews'},'google-business':{key:'google-business',icon:'🗺️',name:'Google Business',price:79,priceId:'price_1TK4UHLwGb6me8Ph1THSCHXm',desc:'Google Business Profil automatisch aktualisieren'},dashboard:{key:'dashboard',icon:'📊',name:'Dashboard',price:39,priceId:'price_1TK4UILwGb6me8PhfBpFSyad',desc:'Echtzeit-Dashboard für alle Kennzahlen'},'email-monitor':{key:'email-monitor',icon:'📧',name:'E-Mail Monitor',price:59,priceId:'price_1TK4UJLwGb6me8PhkUVyJ3IK',desc:'Wichtige E-Mails automatisch erkennen'},'reels-ki':{key:'reels-ki',icon:'🎬',name:'Reels mit KI-Videos',price:149,priceId:'price_1TK4UKLwGb6me8PhfOByhrQa',desc:'Automatische KI-Video-Reels für Instagram'}};
@@ -209,16 +235,11 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
         // Module Liste
         const moduleList = document.getElementById('paketModuleList');
         if (moduleList) {
-          moduleList.innerHTML = modules.map(key => {
-            const m = MODULES[key];
-            if (!m) return '';
-            return `<div style="display:flex;gap:14px;align-items:center;background:rgba(255,255,255,0.07);border-radius:12px;padding:12px 16px;">
-              <div style="font-size:22px;">${m.icon}</div>
-              <div>
-                <div style="color:#fff;font-weight:700;font-size:14px;">${m.name}</div>
-                <div style="color:rgba(255,255,255,0.6);font-size:12px;">${m.desc}</div>
-              </div>
-              <div style="margin-left:auto;color:#f5a623;font-weight:800;font-size:14px;white-space:nowrap;">${m.price}€/Mo</div>
+          moduleList.innerHTML = (PAKET_FEATURES[PAKET] || []).map(f => {
+            return `<div style="display:flex;gap:14px;align-items:center;background:rgba(255,255,255,0.07);border-radius:12px;padding:14px 16px;">
+              <div style="font-size:20px;min-width:28px;text-align:center;">${f.icon}</div>
+              <div style="color:#fff;font-weight:600;font-size:14px;">${f.text}</div>
+              <div style="margin-left:auto;color:#2dd881;font-size:18px;">✓</div>
             </div>`;
           }).join('');
         }
