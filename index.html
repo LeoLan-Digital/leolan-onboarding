@@ -57,7 +57,7 @@
   .chat-footnote{margin-top:10px;color:var(--muted);font-size:.82rem}
   @media (max-width:640px){.chat-overlay{padding:10px}.chat-modal{height:min(88vh,100%);border-radius:22px}.chat-header,.chat-input-wrap{padding-left:14px;padding-right:14px}.chat-body{padding:14px}.chat-input-row{flex-direction:column}.chat-send{width:100%}.chat-bubble{max-width:92%}}
   </style>
-<!-- v1775901671 -->
+<!-- v1775901798 -->
 </head>
 <body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"1",10);o<7&&(localStorage.setItem("ll_version",8),o>0&&window.location.reload(!0))}();
   </script>
@@ -311,7 +311,11 @@ async function handleFoodPhotos(files){if(!files||!files.length){foodPhotoDataCa
     function initSuccessStateIfNeeded(){const params=new URLSearchParams(window.location.search);if(params.get('success')==='true'){localStorage.removeItem(STORAGE_KEY);showSuccessState()}}
     // Alte Cache-Keys bereinigen
     ['leolan-module-configurator-v1775901671','leolan-module-configurator-v1775901671','leolan-module-configurator-v1775901671'].forEach(k=>localStorage.removeItem(k));
-    document.addEventListener('DOMContentLoaded',function(){if(new URLSearchParams(window.location.search).get('reset')==='1'){localStorage.clear();};renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();});
+    document.addEventListener('DOMContentLoaded',function(){
+    if(new URLSearchParams(window.location.search).get('popup')==='test'){
+      setTimeout(function(){showModuleInfo('whatsapp-ki-bot');},500);
+    }
+    if(new URLSearchParams(window.location.search).get('reset')==='1'){localStorage.clear();};renderModules();restoreForm();bindEvents();updateSelectionUI();initSuccessStateIfNeeded();initPaket();updateStep();});
 
     // AGB Checkboxen — Submit-Button erst aktiv wenn alle 3 gecheckt
     function updateSubmitBtn() {
