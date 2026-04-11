@@ -29,15 +29,7 @@
   </style>
 <!-- v1775877992 -->
 </head>
-<body><script>
-(function(){
-  var CURRENT_VERSION = 6;
-  var stored = parseInt(localStorage.getItem('ll_version') || '0', 10);
-  if (stored < CURRENT_VERSION) {
-    localStorage.setItem('ll_version', CURRENT_VERSION);
-    if (stored > 0) { window.location.reload(true); }
-  }
-})();
+<body><script>!function(){var o=parseInt(localStorage.getItem("ll_version")||"0",10);o<6&&(localStorage.setItem("ll_version",6),o>0&&window.location.reload(!0))}();
 </script>
 
   <div class="shell">
