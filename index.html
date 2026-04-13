@@ -65,12 +65,6 @@ body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFo
 .sum-total{background:#0d1117;border-radius:10px;padding:16px;margin-top:12px}
 .sum-total-row{display:flex;justify-content:space-between;font-size:.88rem;padding:4px 0}
 .sum-total-row.big{font-size:1.1rem;font-weight:800;color:#f5a623;padding-top:10px;margin-top:6px;border-top:1px solid #21262d}
-.legal-checks{display:flex;flex-direction:column;gap:12px;margin:20px 0}
-.legal-check{display:flex;align-items:flex-start;gap:10px;cursor:pointer}
-.legal-check input[type="checkbox"]{width:18px;height:18px;min-width:18px;accent-color:#f5a623;margin-top:2px;cursor:pointer}
-.legal-check span{color:#8b949e;font-size:13px;line-height:1.5}
-.legal-check a{color:#f5a623;text-decoration:none}
-.legal-check a:hover{text-decoration:underline}
 </style>
 </head>
 <body>
@@ -147,21 +141,7 @@ body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFo
       <h3>💰 Preisübersicht</h3>
       <div id="sumPrice"></div>
     </div>
-    <div class="legal-checks">
-      <label class="legal-check">
-        <input type="checkbox" id="checkAgb" required>
-        <span>Ich akzeptiere die <a href="https://ki.leolan.net/agb/" target="_blank">AGB</a> *</span>
-      </label>
-      <label class="legal-check">
-        <input type="checkbox" id="checkDatenschutz" required>
-        <span>Ich habe die <a href="https://ki.leolan.net/datenschutz/" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere sie *</span>
-      </label>
-      <label class="legal-check">
-        <input type="checkbox" id="checkAbo" required>
-        <span>Ich stimme dem Abonnement zu (Mindestlaufzeit 12 Monate, monatlich kündbar danach) *</span>
-      </label>
-    </div>
-    <button class="btn btn-primary" id="payBtn" onclick="doCheckout()" disabled>💳 Jetzt bezahlen</button>
+    <button class="btn btn-primary" id="payBtn" onclick="doCheckout()">💳 Jetzt bezahlen</button>
     <div class="status" id="status"></div>
     <div class="note">Nach der Zahlung erhalten Sie Ihren Kundencode per E-Mail.<br>Mit diesem Code loggen Sie sich in der LeoLan Manager App an.</div>
     <button class="btn btn-back" onclick="show(1)" style="margin-top:8px">← Daten ändern</button>
@@ -177,16 +157,6 @@ body{background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFo
 <script>
 var urlPkg=new URLSearchParams(window.location.search).get('paket'); var pkg=urlPkg==='pro'?'pro':'starter';
 var fdata={};
-function legalChecksAccepted(){
-  return ['checkAgb','checkDatenschutz','checkAbo'].every(function(id){
-    var el=document.getElementById(id);
-    return el&&el.checked;
-  });
-}
-function updatePayButtonState(){
-  var btn=document.getElementById('payBtn');
-  if(btn)btn.disabled=!legalChecksAccepted();
-}
 function tpw(id,btn){var i=document.getElementById(id);if(i.type==='password'){i.type='text';btn.textContent='Verbergen';}else{i.type='password';btn.textContent='Zeigen';}}
 function spkg(p){pkg=p;document.querySelectorAll('.pkg').forEach(function(c){c.classList.remove('on')});document.querySelector('[data-pkg="'+p+'"]').classList.add('on');}
 function setErr(id,has){var f=document.getElementById('fe-'+id);if(f)f.classList.toggle('bad',has);}
@@ -262,13 +232,8 @@ function show(n){
 }
 async function doCheckout(){
   var btn=document.getElementById('payBtn');
-  var s=document.getElementById('status');s.className='status';s.textContent='';
-  if(!legalChecksAccepted()){
-    s.className='status err';s.textContent='Bitte akzeptieren Sie alle Bedingungen';
-    updatePayButtonState();
-    return;
-  }
   btn.disabled=true;btn.textContent='Wird verarbeitet...';
+  var s=document.getElementById('status');s.className='status';s.textContent='';
   try{
     // Save registration data for after payment
     localStorage.setItem('pendingReg', JSON.stringify(fdata));
@@ -317,15 +282,6 @@ var chkRes=await fetch('https://n8n.leolan.net/webhook/stripe-checkout',{method:
     btn.disabled=false;btn.textContent='💳 Jetzt bezahlen';
   }
 }
-document.addEventListener('change',function(e){
-  if(e.target&&e.target.id&&['checkAgb','checkDatenschutz','checkAbo'].indexOf(e.target.id)!==-1){
-    var s=document.getElementById('status');
-    if(legalChecksAccepted()&&s.classList.contains('err')&&s.textContent==='Bitte akzeptieren Sie alle Bedingungen'){
-      s.className='status';s.textContent='';
-    }
-    updatePayButtonState();
-  }
-});
-spkg(pkg);updatePayButtonState();</script>
+spkg(pkg);</script>
 </body>
 </html>
